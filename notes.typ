@@ -182,6 +182,454 @@ equivalence, namely, $ Psi : Pfct(cal(B)) arrow Fib(cal(B)) $
 
 In @equivalence, we will show that the two form the two halves of an equivalence, finishing the
 proof.
+
+= Fiber functor <fiber-functor>
+
+Let's build $ Phi : Fib(cal(B)) arrow Pfct(cal(B)) $
+
+== Action of $Phi$ on objects
+
+Assume we have a fibration $p$.
+
+=== Definition of the fibre pseudo-functor
+Let us build $p^(-1) : cal(B)^(op) arrow Cat$ a pseudo-functor.
+For $X : cal(B)$, $
+    p^(-1)_X &= { R : cal(E) | R subset.sq X } \
+    p^(-1)_X (S, R) &= { alpha : S arrow R | p(alpha) = id_X }
+$
+
+Let $X, Y : cal(B)$ and $f : X arrow Y$. Let's define $p^(-1)_f : p^(-1)_Y arrow p^(-1)_X$ by
+noticing that, for each $R : p^(-1)_Y$, by the fibration condition on $p$, there exists a
+cartesian morphism $[f]_R$
+#align(center)[#diagram(spacing: 2cm, $
+    p^(-1)_f (R) edge("d", "-[]") edge([f]_R, ->) & R edge("d", "-[]") \
+    X edge(f, ->) & Y
+$)]
+
+Furthermore, for $R, R' : p^(-1)_Y$ and $g : R arrow R'$, we have the following diagram
+
+#align(center)[#diagram(spacing: 2cm, $
+    p^(-1)_f (R') edge("dd", "-[]", bend: #(-30deg)) edge("r", [f]_R', ->) & R' edge("dd", "-[]", bend: #30deg) \
+    p^(-1)_f (R) edge("d", "-[]") edge([f]_R, ->) & R edge("d", "-[]") edge("u", g, ->)\
+    X edge(f, ->) & Y
+$)]
+
+By cartesianity of $iota_R'$, there exists a unique $p^(-1)_f (g) : p^(-1)_f (R) arrow p^(-1)_f (R')$ st $
+    p(p^(-1)_f (g)) &= id_X \
+    [f]_R'  compose p^(-1)_f (g) &= g compose [f]_R
+$
+ie. the following diagram commutes
+#align(center)[#diagram(spacing: 2cm, $
+    p^(-1)_f (R') edge("dd", "-[]", bend: #(-30deg)) edge("r", [f]_R', ->) & R' edge("dd", "-[]", bend: #30deg) \
+    p^(-1)_f (R) edge("u", p^(-1)_f (g), ->, "dashed") edge("d", "-[]") edge([f]_R, ->) & R edge("d", "-[]") edge("u", g, ->)\
+    X edge(f, ->) & Y
+$)]
+
+Let us indeed check that this defines a functor.  For any $R : p^(-1)_Y$, note that
+
+#align(center)[#diagram(spacing: 2cm, $
+    p^(-1)_f (R) edge("dd", "-[]", bend: #(-40deg)) edge("r", [f]_R, ->) & R edge("dd", "-[]", bend: #40deg) \
+    p^(-1)_f (R) edge("u", id_(p^(-1)_f (R)), ->, "dashed") edge("d", "-[]") edge([f]_R, ->) & R edge("d", "-[]") edge("u", id_R, ->)\
+    X edge(f, ->) & Y
+$)]
+
+$id_(p^(-1)_f (R))$ satisfies the universal property of $p^(-1)_f (id_R)$, so we have $
+    p^(-1)_f (id_R) = id_(p^(-1)_f (R))
+$
+
+Let now $R, R', R'' : p^(-1)_Y$, $g : R arrow R'$ and $g' : R' arrow R''$.
+#align(center)[#diagram(spacing: 2cm, $
+    p^(-1)_f (R'') edge("ddd", "-[]", bend: #(-35deg)) edge("r", [f]_R'', ->) & R'' edge("ddd", "-[]", bend: #35deg) \
+    p^(-1)_f (R') edge("u", p^(-1)_f (g'), ->, "dashed") edge("r", [f]_R', ->) edge("dd", "-[]", bend: #(-30deg)) & R' edge("dd", "-[]", bend: #30deg) edge("u", g', ->) \
+    p^(-1)_f (R) edge("u", p^(-1)_f (g), ->, "dashed") edge("d", "-[]") edge([f]_R, ->) & R edge("d", "-[]") edge("u", g, ->)\
+    X edge(f, ->) & Y
+$)]
+
+Note that $p^(-1)_f (g') compose p^(-1)_f (g)$ satisfies the universal property of $p^(-1)_f (g'
+compose g)$, so we have $
+    p^(-1)_f (g' compose g) = p^(-1)_f (g') compose p^(-1)_f (g)
+$
+
+Let us now show that $p^(-1)$ indeed defines a pseudo-functor.
+
+=== Pseudo identity law
+For $X : cal(B)^(op)$, let us first exhibit a natural isomorphism $p^(-1)_(id_X)
+tilde(arrow.double) id_X$.  For $R : p^(-1)_X$, we have $[id_X]_R : p^(-1)_(id_X) (R) arrow id_X
+(R)$.  This defines a natural transformation.  Indeed, for $R, R' : p^(-1)_X$ and $f : R arrow
+R'$, the following diagram commutes by definition of $p^(-1)_(id_X) (f)$:
+#align(center)[#diagram(spacing: 2cm, $
+    p^(-1)_(id_X) (R') edge("dd", "-[]", bend: #(-30deg)) edge("r", [id_X]_R', ->) & R' edge("dd", "-[]", bend: #30deg) \
+    p^(-1)_(id_X) (R) edge("u", p^(-1)_(id_X) (f), ->) edge("d", "-[]") edge([id_X]_R, ->) & R edge("d", "-[]") edge("u", f, ->) \
+    X edge(id_X, ->) & X
+$)]
+So in particular the upper square commutes
+#align(center)[#diagram(spacing: 2cm, $
+    p^(-1)_(id_X) (R) edge([id_X]_R, ->) edge("d", p^(-1)_(id_X) (f), ->) & R edge("d", f, ->) \
+    p^(-1)_(id_X) (R') edge([id_X]_R', ->) & R'
+$)]
+
+hence $[id_X]$ is natural.  Let's show that each component is an isomorphism.
+
+There is a unique morphism $phi : R arrow p^(-1)_(id_X) (R)$ making the following diagram commute
+
+#align(center)[#diagram(spacing: 2cm, $
+    R edge("drr", id_R, ->, bend: #20deg) edge("ddr", "-[]", bend: #(-20deg)) edge("dr", phi, ->, "dashed") \
+        & p^(-1)_(id_X) (R) edge([id_X]_R, ->) edge("d", "-[]") & R edge("d", "-[]") \
+        & X edge(id_X, ->) & X
+    
+$)]
+
+So $ [id_X]_R compose phi = id_R $
+
+Furthermore, the following diagram commutes
+
+#align(center)[#diagram(spacing: 2cm, $
+    p^(-1)_(id_X) (R) edge("rrrdd", [id_X]_R, ->, bend: #30deg) edge("dddrr", "-[]", bend: #(-30deg)) edge("dr", [id_X]_R, ->) \
+        & R edge("dr", phi, ->) edge("drr", id_R, ->, bend: #15deg) \
+        & & p^(-1)_(id_X) (R) edge("r", [id_X]_R, ->) edge("d", "-[]") & R edge("d", "-[]") \
+        & & X edge(id_X, ->) & X
+    
+$)]
+
+Meaning that $phi compose [id_X]_R$ satisfies the universal property of $[id_X]_R$ with respect to
+$[id_X]_R$.  But so does the identity, so, by unicity, we have $ phi compose [id_X]_R = id_(p^(-1)_(id_X) (R)) $
+Hence $[id_X]_R$ is an iso.
+
+=== Pseudo-composition law
+#lemma([Pseudo-composition law])[
+    Let $X, Y, Z : cal(B)$, and $f : X arrow Y$, $g : Y arrow Z$.  There is a natural isomorphism
+    $ [f, g] : p^(-1)_(g compose f) arrow.double.long p^(-1)_f compose p^(-1)_g $
+]
+#proof[
+    Let $R : p^(-1)_Z$, and consider the following diagram
+    #align(center)[#diagram(spacing: 2cm, $
+        p^(-1)_(g compose f) (R) edge("ddr", "-[]") edge("rrrd", [g compose f]_R, ->, bend: #20deg) \
+            & p^(-1)_f (p^(-1)_g (R)) edge("d", "-[]") edge([f]_(p^(-1)_g (R)), ->) & p^(-1)_g (R) edge([g]_R, ->) edge("d", "-[]") & R edge("d", "-[]") \
+            & X edge(f, ->) & Y edge(g, ->) & Z
+    $)]
+    The fact that $[g compose f]_R$ is cartesian gives a unique morphism $h : p^(-1)_f (p^(-1)_g (R))
+    arrow p^(-1)_(g compose f) (R)$ making the diagram commute:
+    #align(center)[#diagram(spacing: 2cm, $
+        p^(-1)_(g compose f) (R) edge("ddr", "-[]") edge("rrrd", [g compose f]_R, ->, bend: #20deg) \
+            & p^(-1)_f (p^(-1)_g (R)) edge("ul", h, ->, "dashed") edge("d", "-[]") edge([f]_(p^(-1)_g (R)), ->) & p^(-1)_g (R) edge([g]_R, ->) edge("d", "-[]") & R edge("d", "-[]") \
+            & X edge(f, ->) & Y edge(g, ->) & Z
+    $)]
+
+    Conversely, the cartesianity of $[g]_R$, and then $[f]_(p^(-1)_g (R))$ gives $h' : p^(-1)_(g
+    compose f) (R) arrow p^(-1)_g (R)$, then $[f, g]_R : p^(-1)_(g compose f) (R) arrow p^(-1)_f (p^(-1)_g
+    (R))$ making the following commute
+    #align(center)[#diagram(spacing: 2cm, $
+        p^(-1)_(g compose f) (R) edge("dr", [f,g]_R, ->, "dashed") edge("drr", h', ->, "dashed", bend: #8deg) edge("ddr", "-[]") edge("rrrd", [g compose f]_R, ->, bend: #20deg) \
+            & p^(-1)_f (p^(-1)_g (R)) edge("d", "-[]") edge([f]_(p^(-1)_g (R)), ->) & p^(-1)_g (R) edge([g]_R, ->) edge("d", "-[]") & R edge("d", "-[]") \
+            & X edge(f, ->) & Y edge(g, ->) & Z
+    $)]
+    In particular, $[f,g]_R$ and $h$ must be each other's inverse.  We have to show that this
+    construction is natural.  Let $R, R' : p^(-1)_Z$ and $h : R arrow R'$.  We want to show that the
+    following diagram commutes
+
+    #align(center)[#diagram(spacing: 2cm, $
+        p^(-1)_(g compose f) (R) edge([f, g]_R, ->) edge("d", p^(-1)_(g compose f) (h), ->)
+            & p^(-1)_f (p^(-1)_g (R)) edge("d", p^(-1)_f (p^(-1)_g (h)), ->) \
+            p^(-1)_(g compose f) (R') edge([f, g]_R', ->) & p^(-1)_f (p^(-1)_g (R'))
+    $)]
+
+    Note that in the following diagram
+    #align(center)[#diagram(spacing: .7cm, $
+        & p^(-1)_(g compose f) (R') edge("ddddrr", "-[]") edge("ddrr", [f, g]_R', ->) edge("ddrrrrrr", [g compose f]_R', ->, bend: #10deg) \
+        p^(-1)_(g compose f) (R') edge("ur", p^(-1)_(g compose f) (h), ->) edge("ddddrr", "-[]") edge("ddrr", [f, g]_R, ->) \
+            & & & p^(-1)_f (p^(-1)_g (R')) edge("dd", "-[]") edge("rr", [f]_(p^(-1)_g (R')), ->)
+            & & p^(-1)_g (R') edge("dd", "-[]") edge("rr", [g]_R', ->) & & R' edge("dd", "-[]") \
+            & & p^(-1)_f (p^(-1)_g (R)) edge("dd", "-[]") edge("rr", [f]_(p^(-1)_g (R)), ->, crossing: #true, label-pos: #70%) edge("ur", p^(-1)_f (p^(-1)_g (h)), ->, crossing: #true)
+            & & p^(-1)_g (R) edge("rr", [g]_R, ->, crossing: #true) edge("ur", p^(-1)_g (h), ->, label-pos: #20%) & & R edge("ur", h, ->)  edge("uullllll", [g compose f]_R, <-, bend: #(-10deg), crossing: #true) \
+            & & & X edge("rr", f, ->) & & Y edge("rr", g, ->)& & Z \
+            & & X edge("ur", id_X, ->) edge("rr", f, ->) & & Y  edge("uu", "[]-", crossing: #true) edge("rr", g, ->) edge("ur", id_Y, ->) & & Z edge("ur", id_Z, ->, label-side: #right)  edge("uu", "[]-", crossing: #true)
+    $)]
+
+    $p^(-1)_(g compose f) (h)$ is the unique solution to the universal problem of living in the fiber
+    above $X$ and making the top-most square commute.  Hence, to prove that $
+        [f,g]_R' compose p^(-1)_(g compose f) (h) = p^(-1)_f (p^(-1)_g (h)) compose [f, g]_R
+    $
+
+    it suffices to show that $[f,g]_R'^(-1) compose p^(-1)_f (p^(-1)_g (h)) compose [f, g]_R$ also satisfies
+    this universal property.  Each of these three morphisms lives in the fiber above $X$, so so does their
+    composition.  Furthermore, $
+        [g compose f]_R' compose [f,g]_R'^(-1) compose p^(-1)_f (p^(-1)_g (h)) compose [f, g]_R
+            &= [g]_R' compose [f]_(p^(-1)_g (R')) compose p^(-1)_f (p^(-1)_g (h)) compose [f, g]_R
+            & "by definition of" [f,g]_R' \
+            &= [g]_R' compose p^(-1)_g (h) compose [f]_(p^(-1)_g (R)) compose [f, g]_R
+            & "by definition of" p^(-1)_f (p^(-1)_g (h)) \
+            &= h compose [g]_R compose [f]_(p^(-1)_g (R)) compose [f, g]_R
+            & "by definition of" p^(-1)_g (h) \
+            &= h compose [g compose f]_R
+            & "by definition of" [f,g]_R
+    $
+]
+
+=== Identity/composition coherence
+Let $X,Y : cal(B)$ and $f : X arrow Y$ We have to check that the following diagram commutes
+#align(center, diagram(spacing: 2cm, $
+    p^(-1)_f edge([f, id_Y], ->) edge("d", [id_X, f], ->) edge("dr", id_(p^(-1)_f), ->)
+        & p^(-1)_f compose p^(-1)_(id_Y) edge("d", p^(-1)_f compose [id_Y], ->, label-side: #left) \
+        p^(-1)_(id_X) compose p^(-1)_f edge([id_X] compose p^(-1)_f, ->, label-side: #right) & p^(-1)_f
+$))
+
+Let's show that each triangle commutes independently.
+
+==== Upper triangle
+
+Let $R : p^(-1)_Y$.  We have to check the commutation of the following diagram
+
+#align(center, diagram(spacing: 2cm, $
+    p^(-1)_f (R) edge([f, id_Y]_R, ->) edge("dr", id_(p^(-1)_f (R)), ->, label-side: #right)
+        & p^(-1)_f (p^(-1)_id_Y (R)) edge("d", p^(-1)_f ([id_Y]_R), ->, label-side: #left) \
+        & p^(-1)_f (R)
+$))
+
+By definition of $[f, id_Y]$, the following diagram commutes
+#align(center, diagram(spacing: 2cm, $
+    p^(-1)_f (R) edge("ddr", "-[]") edge("drrr", [f]_R, ->, bend: #20deg) edge("dr", [f, id_Y]_R, ->) \
+        & p^(-1)_f (p^(-1)_(id_Y) (R)) edge([f]_(p^(-1)_(id_Y) (R)), ->) edge("d", "-[]")
+        & p^(-1)_(id_Y) (R) edge([id_Y]_R, ->) edge("d", "-[]") & R edge("d", "-[]") \
+        & X edge(f, ->) & Y edge(id_Y, ->) & Y
+$))
+
+and we also have
+#align(center, diagram(spacing: 2cm, $
+    p^(-1)_f (R) edge([f]_R, ->) edge("dd", "-[]", bend: #(-60deg)) & R edge("dd", "-[]", bend: #60deg) \
+    p^(-1)_f (p^(-1)_(id_Y)(R)) edge("u", p^(-1)_f ([id_Y]_R), ->)
+    edge([f]_(p^(-1)_(id_Y)(R)), ->) edge("d", "-[]")
+        & R edge("u", [id_Y]_R, ->) edge("d", "-[]") \
+        X edge(f, ->) & Y
+$))
+
+Hence, by stitching the two together, we have that the following diagram commutes
+#align(center, diagram(spacing: 2cm, $
+    p^(-1)_f (R) edge("ddrrr", [f]_R, ->, bend: #20deg) edge("dr", [f, id_Y]_R, ->)
+    edge("dddrr", "-[]", bend: #(-10deg)) \
+        & p^(-1)_f (p^(-1)_(id_Y)(R)) edge("dr", p^(-1)_f ([id_Y]_R), ->) \
+        && p^(-1)_f (R) edge([f]_R, ->) edge("d", "-[]") & R edge("d", "-[]") \
+        && X edge(f, ->) & Y
+$))
+
+By cartesianity of $[f]_R$, $p^(-1)_f ([id_Y]_R) compose [f, id_Y]_R$ is unique making this diagram
+commute; but since so does $id_(p^(-1)_f (R))$, we must have $
+    p^(-1)_f ([id_Y]_R) compose [f, id_Y]_R = id_(p^(-1)_f (R))
+$
+
+==== Lower triangle
+
+Let $R : p^(-1)_Y$. We have to show the commutation of the following diagram
+
+#align(center, diagram(spacing: 2cm, $
+    p^(-1)_f (R) edge("dr", id_(p^(-1)_f (R)), ->) edge("d", [id_X, f]_R, ->) \
+    p^(-1)_(id_X) (p^(-1)_f (R)) edge([id_X]_(p^(-1)_f (R)), ->, label-side: #right) & p^(-1)_f (R)
+$))
+
+By definition of $[id_X, f]$, the following diagram commutes
+
+#align(center, diagram(spacing: 2cm, $
+    p^(-1)_f (R) edge("drrr", [f]_R, ->, bend: #30deg) edge("dr", [id_X, f]_R, ->) edge("ddr", "-[]") \
+        & p^(-1)_(id_X) (p^(-1)_f (R)) edge([id_X]_(p^(-1)_f (R)), ->) edge("d", "-[]")
+        & p^(-1)_f (R) edge([f]_R, ->) edge("d", "-[]")
+        & R edge("d", "-[]") \
+        & X edge(id_X, ->) & X edge(f, ->) & Y
+$))
+
+but, by cartesianity of $[f]_R$, $[id_X]_(p^(-1)_f (R)) compose [id_X, f]_R$ is unique making this
+diagram commute.  Because $id_(p^(-1)_f (R))$ also makes it commute, we must have $
+    [id_X]_(p^(-1)_f (R)) compose [id_X, f]_R = id_(p^(-1)_f (R))
+$
+
+=== Composition/composition coherence
+
+Let $W,X,Y,Z : cal(B)$ and
+#align(center, diagram(spacing: 2cm, $
+    W edge(f, ->) & X edge(g, ->) & Y edge(h, ->) & Z
+$))
+Let $R : p^(-1)_Z$, we want to show that the following diagram commutes
+#align(center, diagram(spacing: 2cm, $
+    p^(-1)_(h compose g compose f) (R) edge([f, h compose g]_R, ->) edge("d", [g compose f, h]_R, ->)
+        & p^(-1)_f (p^(-1)_(h compose g) (R)) edge("d", p^(-1)_f ([g, h]_R), ->) \
+        p^(-1)_(g compose f) (p^(-1)_h (R)) edge([f, g]_(p^(-1)_h (R)), ->)
+        & p^(-1)_f (p^(-1)_g (p^(-1)_h (R)))
+$))
+
+It suffices to show that $[f,g]^(-1)_(p^(-1)_h (R)) compose p^(-1)_f ([g,h]_R) compose [f, h compose g]_R$
+satisfies the universaly property of $[g compose f, h]_R$, that is, the following diagram commutes
+#align(center, diagram(spacing: 2cm, $
+    p^(-1)_(h compose g compose f) (R) edge([h compose g compose f]_R, ->) edge("d", [f, h compose g]_R, ->)
+        & R \
+        p^(-1)_f (p^(-1)_(h compose g) (R)) edge("d", p^(-1)_f ([g, h]_R), ->)
+        & p^(-1)_h (R) edge("u", [h]_R, ->) \
+        p^(-1)_f (p^(-1)_g (p^(-1)_h (R))) edge([f, g]^(-1)_(p^(-1)_h (R)), ->)
+        & p^(-1)_(g compose f) (p^(-1)_h (R)) edge("u", [g compose f]_(p^(-1)_h (R)), ->)
+$))
+
+In the following diagram, each inner diagram commutes, hence the outermost diagram commutes
+#[
+    #set text(size: 8pt)
+    #align(center, diagram(spacing: 1.5cm, crossing-thickness: 7, $
+    p^(-1)_(h compose g compose f) (R)
+    edge("drrrrrr", [h compose g compose f]_R, ->, bend: #10deg)
+    edge("dr", [f, h compose g]_R, ->)
+    edge("dd", "-[]") \
+        & p^(-1)_f (p^(-1)_(h compose g) (R)) edge([f]_(p^(-1)_(h compose g) (R)), ->) edge("dd", "-[]")
+        edge("dr", p^(-1)_f ([g, h]_R), ->)
+        & p^(-1)_(h compose g) (R) edge("rrrr", [h compose g]_R, ->) edge("dd", "-[]")
+        edge("dr", [g, h]_R, ->)
+        & & & & R edge("dd", "-[]") \
+        W edge("dr", id_W, ->) &
+        & p^(-1)_f (p^(-1)_g (p^(-1)_h (R))) edge([f]_(p^(-1)_g (p^(-1)_h (R))), ->)
+        & p^(-1)_g (p^(-1)_h (R)) edge("dd", "-[]") edge("rr", [g]_(p^(-1)_h (R)), ->)
+        && p^(-1)_h (R) edge("dd", "-[]") edge("ur", [h]_R, ->) \
+        & W edge(f, ->) edge("dr", id_W, ->) & X edge("dr", id_X, ->) &
+        & p^(-1)_(g compose f) (p^(-1)_h (R)) edge("ur", [g compose f]_(p^(-1)_h (R)), ->)
+        edge("ull", [f, g]^(-1)_(p^(-1)_h (R)), <-, label-side: #left, label-pos: #25%, crossing: #true)
+        & & Z \
+        && W edge(f, ->) edge("uu", "[]-", shift: #(-4pt), crossing: #true) edge("drr", id_W, ->, label-pos: #60%)
+        & X edge("rr", g, ->) && Y edge("ur", h, ->) \
+        & & & & W  edge("uu", "[]-", crossing: #true) edge("ur", g compose f, ->)
+    
+$))]
+
+which is exactly what we wanted.
+
+We can therefore define $ Phi(p) = p^(-1) $
+
+== Action of $Phi$ on morphisms
+
+Let $p : cal(E)_1 arrow cal(B)$ and $q : cal(E)_2 arrow cal(B)$ be two fibrations, and
+$F : p arrow q$ be a morphism
+#align(center)[#diagram(spacing: 2cm, $
+    cal(E)_1 edge(F, ->) edge("d", p, ->) & cal(E)_2 edge("d", q, ->) \
+    cal(B) edge(id_(cal(B)), ->) & cal(B)
+$)]
+We want to define $nu^F : p^(-1) arrow q^(-1)$.  Let $X : cal(B)$, $
+    nu^F_X &:& p^(-1)(X) &arrow.long q^(-1)(X) \
+        & & S &mapsto.long F(S) \
+        & & f &mapsto.long F(f)
+$
+Which is well defined because, if $p(S) = X$, then $ q(F(S)) = p(S) = X $ and if
+$f : S arrow R$ is in the fiber above $X$, then $ q(F(f)) = p(f) = id_X $ so $F(f)$
+also lives in the fiber above $X$.  $nu^F_X$ is clearly functorial, because $F$ is.
+
+Now, let $f : X arrow Y$ in $cal(B)$ $ nu^F_f (R) : q^(-1)_f (F(R)) arrow.long F(p^(-1)_f (R)) $
+is defined by noting that we have the following commuting diagram
+#align(center)[#diagram(spacing: 2cm, $
+    p^(-1)_f (R) edge("d", "-[]") edge([f]_R, ->) & R edge("d", "-[]") \
+    X edge(f, ->) & Y
+$)]
+and so, by cartesianity of $F([f]_R)$, which stems from that of $[f]_R$ because $F$ preserves
+cartesianity,
+#align(center)[#diagram(spacing: 2cm, $
+    q_f^(-1) (F(R)) edge("ddr", "-[]", bend: #(-30deg)) edge("drr", [f]_(F(R)), ->, bend: #30deg)
+    edge("dr", nu^F_f (R), ->, "dashed") \
+    & F(p^(-1)_f (R)) edge("d", "-[]") edge(F([f]_R), ->) & F(R) edge("d", "-[]") \
+        & X edge(f, ->) & Y
+$)]
+
+=== $nu^F_f$ is an isomorphism
+==== Naturality
+
+#lemma[
+    $nu^F_f$ is a natural transformation.
+]
+#proof[
+    Let $g : R arrow S$ be a morphism in $p^(-1)_Y$.
+    #align(center)[#diagram(spacing: 1.5cm, crossing-thickness: 5, $
+        & F(R) edge("dd", F(g), ->, label-pos: #70%) \
+        q^(-1)_f (F(R)) edge("ur", [f]_(F(R)), ->) edge("rr", nu^F_f (R), ->, crossing: #true, label-pos: #20%) edge("dd", q^(-1)_f (F(g)), ->)
+            && F(p^(-1)_f (R)) edge("dd", F(p^(-1)_f (g)), ->) edge("ul", F([f]_R), ->) \
+            & F(S) edge("dd", "-[]") \ 
+            q^(-1)_f (F(S)) edge("rr", nu^F_f (S), ->, crossing: #true, label-pos: #30%) edge("ur", [f]_F(S), ->) edge("dd", "-[]")
+            && F(p^(-1)_f (S)) edge("ul", F([f]_R), ->) edge("dd", "-[]") \
+            & Y & \
+            X edge("rr", id_X, ->) edge("ur", f, ->) && X edge("ul", f, ->)
+    $)]
+    We have to show that the upper front square commutes.  This stems from the fact that
+    $q_f^(-1)(F(g))$ has the universal property of living in the fiber over $X$, and making the
+    left-most square commute, so we just need to check that the same is true for $
+        nu^F_f (S)^(-1) compose F(p_f^(-1)(g)) compose nu^F_f (R)
+    $
+    which is true because the two triangles and the right-most square commute in the above diagram.
+]
+
+==== Coherences
+#lemma[
+    $nu^F$ is a morphism.
+]
+#proof[
+    We have shown that, for any $f$, $nu^F_f$ is a natural transformation.  We just have to
+    check that $nu^F$ satisfies the coherence conditions.
+
+    - Let $X : cal(B)$.  Let $R : p^(-1)_X$.
+      We have to check that $
+          id_(nu_X (R)) = (nu^F_X ([id_X]_R)) compose nu^F_(id_X) (R) compose [id_X]_(nu_X (R))^(-1)
+      $
+      that is, $
+          [id_X]_ (F(R)) = F([id_X]_R) compose nu^F_(id_X) (R)
+      $
+      which is, in diagrammatic form,
+      #align(center, diagram(spacing: 2cm, $
+          q^(-1)_(id_X) (F(R)) edge("d", nu^F_(id_X) (R), ->) edge("dr", [id_X]_(F(R)), ->) \
+          F(p^(-1)_(id_X)(R)) edge(F([id_X]_R), ->, label-side: #right) & F(R)
+      $))
+      the commutation of this diagram is exactly the definition of $nu^F_(id_X)(R)$.
+    - Let $X,Y,Z : cal(B)$ be three objects, $f : X arrow Y$ and $g : Y arrow Z$ be two morphisms
+      in $cal(B)$.  Let $R : p^(-1)_Z$.  We have to check that $
+          nu^F_(g compose f) (R) = nu^F_X ([f, g]^(-1)_R) compose nu^F_f (p^(-1)_g (R))
+          compose q^(-1)_f (nu^F_g (R)) compose [f,g]'_(nu^F_Z (R)) 
+      $
+      that is, that the following diagram commutes
+      #align(center, diagram(spacing: 2cm, $
+          q^(-1)_(g compose f) (F (R))
+          edge([f, g]'_(nu^F_Z (R)), ->)
+          edge("dd", nu^F_(g compose f) (R), ->)
+              & q^(-1)_f (q^(-1)_g (F(R)))
+              edge("d", q^(-1)_f (nu^F_g (R)), ->) \
+              & q^(-1)_f (F(p^(-1)_g (R)))
+              edge("d", nu^F_f (p^(-1)_g (R)), ->) \
+              F(p^(-1)_(g compose f) (R)) edge(F([f, g]_R), ->) & F(p^(-1)_f (p^(-1)_g (R)))
+      $))
+
+      $nu^F_(g compose f) (R)$ is defined as the unique map in the fiber above $X$ that makes
+      the following diagram commute
+      #align(center, diagram(spacing: 2cm, $
+          q^(-1)_(g compose f) (F(R)) edge("d", nu^F_f (R), ->) edge("dr", [g compose f]_(F(R)), ->) \
+          F(p^(-1)_(g compose f) (R)) edge(F([g compose f]_R), ->, label-side: #right) & F(R)
+      $))
+      Hence, we just need to show that the following diagram commutes
+      #align(center, diagram(spacing: 2cm, $
+          q^(-1)_(g compose f) (F(R)) edge([g compose f]_(F(R)), ->) edge("d", [f, g]'_(F(R)), ->)
+              & F(R) \
+              q^(-1)_f (q^(-1)_g (F(R))) edge("d", q^(-1)_f (nu^F_g (R)), ->)
+              & F(p^(-1)_(g compose f)(R))edge("u", F([g compose f]_R), ->) \
+              q^(-1)_f (F(p^(-1)_g (R))) edge(nu^F_f (p^(-1)_g (R)), ->)
+              & F(p^(-1)_f (p^(-1)_g (R))) edge("u", F([f,g]_R^(-1)), ->)
+      $))
+      Indeed, we can fill it with commuting diagrams as follows
+      #align(center, diagram(spacing: 2.5cm, $
+          q^(-1)_(g compose f) (F(R)) edge("rrr", [g compose f]_(F(R)), ->) edge("dd", [f, g]'_(F(R)), ->)
+              & & & F(R) \
+              & q^(-1)_g (F(R)) edge("dr", nu^F_g (R), ->)
+              edge("urr", [g]_F(R), ->)\
+              q^(-1)_f (q^(-1)_g (F(R))) edge("d", q^(-1)_f (nu^F_g (R)), ->)
+              edge("ur", [f]_(q^(-1)_g (F(R))), ->)
+              & & F(p^(-1)_g (R)) edge("uur", F([g]_R), ->) & F(p^(-1)_(g compose f)(R)) edge("uu", F([g compose f]_R), ->) \
+              q^(-1)_f (F(p^(-1)_g (R))) edge("urr", [f]_(F(p^(-1)_g (R))), ->) edge("rrr", nu^F_f (p^(-1)_g (R)), ->)
+              & & & F(p^(-1)_f (p^(-1)_g (R))) edge("u", F([f,g]_R^(-1)), ->, label-side: #right) edge("ul", F([f]_(p^(-1)_g (R))), ->)
+      $))
+]
+
+==== Iso
+#lemma[
+    $nu^F_f (R)$ is an isomorphism.
+]
+#proof[
+    This stems from the fact that $[f]_(F(R))$ is cartesian.
+]
+
+We therefore define $ Phi(F) = nu^F $
 // Local Variables:
 // tp--master-file: "/home/adri/dev/notes/notes.typ"
 // End:
