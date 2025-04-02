@@ -916,6 +916,121 @@ $Pfct(cal(B))$.
       // $))
       // which clearly has a unique solution for $h_2$.
 ]
+
+= The equivalence <equivalence>
+
+== $Phi compose Psi$
+Let $cal(P) : cal(B)^(op) arrow Cat$ be a pseudo-functor.
+#definition[
+    Consider $ H^(cal(P)) &:& pi(cal(P))^(-1) &arrow.long cal(P) $
+    defined by, for $X : cal(B)$, $
+        H^(cal(P))_X &:& pi(cal(P))^(-1)_X &arrow.long cal(P)_X \
+            & & (X, x) &mapsto.long x\
+            & & (id_X, f) &mapsto.long i_X (b) compose f
+    $
+    Let $(id_X, f) : (X, a) arrow (X, b)$ in $pi(cal(P))^(-1)_X$, that is,
+    $f : a arrow cal(P)_(id_X) (b)$.  We have
+    #align(center, diagram(spacing: 3cm, $
+        a edge(f, ->) edge("dr", H^cal(P)_X (id_X, f), ->, label-side: #right)
+            & cal(P)_id_X (b) edge("d", i_X (b), ->, label-side: #left) \
+            & b
+    $))
+]
+
+#lemma[
+    $H^(cal(P))$ is a morphism in $Pfct(cal(B))$.
+]
+#proof[
+    Let $f : X arrow Y$ in $cal(B)$, let's show that there is a natural isomorphism
+    #align(center, diagram(spacing: 2cm, $
+        pi(cal(P))^(-1)_Y edge(H^(cal(P))_Y, ->) edge("d", pi(cal(P))^(-1)_f, ->)
+            & cal(P)_Y edge("d", cal(P)_f, ->) edge("dl", eta_f, =>) \
+            pi(cal(P))^(-1)_X edge(H^(cal(P))_X, ->) & cal(P)_X
+    $))
+    Let $(Y, y) : pi(cal(P))^(-1)_Y$, that is, $y : cal(P)_Y$.  We have
+    #align(center, diagram(spacing: 2cm, $
+        pi(cal(P))^(-1)_f (Y, y) edge([f]_(Y, y), ->) edge("d", "-[]") & (Y, y) edge("d", "-[]") \
+        X edge(f, ->) & Y
+    $))
+    We can write $[f]_(Y,y) = (f, eta_f (y))$ with $eta_f (y) : H^cal(P)_X (pi(cal(P))^(-1)_f (Y, y)) arrow cal(P)_f (y)$.
+
+    Let's prove that $eta_f$ is natural, and that it is an isomorphism.
+    - #box(width: 100%)[let $y,y' : cal(P)_Y$ and $g : y arrow y'$. We want to show the the
+        following diagram commutes]
+      #align(center, diagram(spacing: 2cm, $
+          H^cal(P)_X (pi(cal(P))^(-1)_f (Y, y)) edge(eta_f (y), ->)
+          edge("d", H^cal(P)_X (pi(cal(P))^(-1)_f (id_Y, g)), ->)
+              & cal(P)_f (y) edge("d", cal(P)_f (H^cal(P)_Y (id_Y, g)), ->, label-side: #left) \
+              H^cal(P)_X (pi(cal(P))^(-1)_f (Y, y')) edge(eta_f (y'), ->) & cal(P)_f (y')
+      $))
+      We have that the following diagram commutes
+      #align(center, diagram(spacing: 3cm, $
+          pi(cal(P))^(-1)_f (Y, y') edge([f]_(Y, y'), ->) edge("dd", "-[]", bend: #(-50deg))
+              & (Y, y') edge("dd", "-[]", bend: #50deg) \
+              pi(cal(P))^(-1)_f (Y, y) edge([f]_(Y,y), ->) edge("d", "-[]") edge("u", pi(cal(P))^(-1)_f (id_Y, g), ->)
+              & (Y, y) edge("d", "-[]") edge("u", (id_Y, g), ->, label-pos: #35%) \
+          X edge(f, ->) & Y
+      $))
+      We can write $pi(cal(P))^(-1)_f (id_Y, g) = (id_Y, h)$, and so the commutation of the
+      square implies the following commutation on the second component of the morphisms
+      #align(center, diagram(spacing: 2cm, $
+          H^cal(P)_X (pi(cal(P))^(-1)_f (Y, y)) edge(eta_f (y), ->) edge("d", h, ->)
+              & P_f (y) edge("d", P_f (g), ->) \
+      
+      $))
+    TODO
+]
+
+#lemma[$H^cal(P)$ is an isomorphism.]
+#proof[TODO]
+
+#lemma[$H^cal(P)$ is natural in $cal(P)$.]
+#proof[TODO]
+
+#lemma[
+    $ Phi compose Psi tilde.equiv id_(Pfct(cal(B))) $
+]
+#proof[
+    We have exhibited a natural isomophism $ H : Phi compose Psi arrow.double.long id_(Pfct(cal(B))) $
+]
+
+== $Psi compose Phi$
+Let $p : cal(E) arrow cal(B)$ be a fibration.  $
+    Psi compose Phi (p) = pi(p^(-1)) : integral p^(-1) arrow cal(B)
+$
+
+#definition[
+    Consider $
+        G_p &:& integral p^(-1) &arrow.long cal(E) \
+            & & (X, R) &mapsto.long R \
+            & & (f_1, f_2) &mapsto.long [f_1]_R compose f_2
+    $
+    Let $(f_1, f_2) : (X, S) arrow (Y, R)$, we have $f_1 : X arrow Y$ and $f_2 : S arrow p^(-1)_(f_1) (R)$
+    #align(center, diagram(spacing: 2cm, $
+        S edge("d", "-[]") edge(f_2, ->) & p^(-1)_(f_1) (R) edge("d", "-[]") edge([f_1]_R, ->) & R edge("d", "-[]") \
+        X edge(id_X, ->) & X edge(f_1, ->) & Y
+    $))
+]
+
+#lemma[
+    $G_p$ is a fibration morphism.
+]
+#proof[TODO]
+
+#lemma[$G_p$ is an isomorphism.]
+#proof[TODO]
+
+#lemma[$G_p$ is natural in $p$.]
+#proof[TODO]
+
+#lemma[
+    $ Psi compose Phi tilde.equiv id_(Fib(cal(B))) $
+]
+#proof[
+    We have exhibited the natural isomorphism $ G : Psi compose Phi arrow.double.long id_(Fib(cal(B))) $
+]
+This concludes the proof of the main theorem.
+
 // Local Variables:
 // tp--master-file: "/home/adri/dev/notes/notes.typ"
 // End:
