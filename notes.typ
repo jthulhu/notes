@@ -630,6 +630,292 @@ $)]
 ]
 
 We therefore define $ Phi(F) = nu^F $
+
+= Grothendieck construction <grothendieck-construction>
+
+In this section, we will define a functor $Psi : Pfct(cal(B)) arrow Fib(cal(B))$.
+
+== Action of $Psi$ on objects
+
+Let $cal(P) : cal(B)^(op) arrow Cat$ be a pseudo-functor. Let's build a fibration over $B$ out of
+it.
+#definition([Total category])[
+    The total category $integral cal(P)$ has
+    - objects: pairs $(X, x)$ with $X : cal(B)^(op)$ and $x : cal(P)_X$;
+    - morphisms between two objects $(A, a)$ and $(B, b)$: pairs $(f_1, f_2)$ with $f_1 : A arrow B$
+      in $cal(B)$ and $f_2 : a arrow cal(P)_f_1 (b)$.
+    - identities for $(X, x) : integral cal(P)$: $(id_((X,x)))_0 = id_X$ and $
+        (id_((X,x)))_1 & : x arrow.long cal(P)_(id_X)(x)\
+        (id_((X,x)))_1 & = i_X^(-1) (x)
+    $
+
+    - composition, given $(A, a), (B, b), (C, c) : integral cal(P)$, $(f_1,
+    f_2) : (A, a) arrow (B, b)$ and $(g_1, g_2) : (B, b) arrow (C, c)$: $(h_1, h_2) =
+    (g_1, g_2) compose (f_1, f_2)$ by
+        - #box(width: 100%)[$h_1 : A arrow C = g_1 compose f_1 $]
+        - $h_2 : a arrow cal(P)_(g_1 compose f_1) (c)$ by
+          #align(center)[#diagram($
+              a edge(f_2, ->) & cal(P)_f_1 (b) edge(cal(P)_f_1 (g_2), ->) & cal(P)_f_1 (cal(P)_g_1 (c))
+              edge(c_(f_1, g_1)^(-1) (c), ->) & cal(P)_(g_1 compose f_1) (c)
+          $)]
+]
+
+#lemma()[
+    Let $f$ be an isomorphism in $integral cal(P)$.  $f_1$ and $f_2$ are invertible.
+]<iso-parts-iso>
+
+#proof[
+    Let $(f_1, f_2) : (A, a) arrow (B, b)$ a morphism in $integral cal(P)$, and
+    $(g_1, g_2) : (B, b) arrow (A, a)$ such that $
+        (f_1, f_2) compose (g_1, g_2) &= id_(B, b) \
+        (g_1, g_2) compose (f_1, f_2) &= id_(A, a)
+    $
+    We have that $f_1 compose g_1 = id_B$ and $g_1 compose f_1 = id_A$, so $f_1$ is invertible
+    and $ f_1^(-1) = g_1$.
+
+    Furthermore, the following diagram commute
+    #align(center, diagram(spacing: 2cm, $
+        a edge(i_A (a)^(-1), ->) edge("d", f_2, ->) & cal(P)_(id_A) (a) \
+        cal(P)_(f_1)(b) edge(cal(P)_(f_1)(g_2), ->)
+            & cal(P)_(f_1) (cal(P)_(f_1^(-1)) (a)) edge("u", c_(f_1, f_1^(-1)) (a)^(-1), ->)
+    $))
+    So we have a candidate for the inverse of $f_2$, namely, $
+        hat(f)_2 := i_A (a) compose c_(f_1, f_1^(-1))^(-1) (a) compose cal(P)_(f_1)(g_2)
+    $
+    because the diagram above states that $hat(f)_2 compose f_2 = id_a$.  Furthermore,
+    the following diagram commutes
+    #align(center, diagram(spacing: 2cm, $
+        b edge(i_B (b)^(-1), ->) edge("d", g_2, ->) & cal(P)_(id_B) (b) \
+        cal(P)_(f_1^(-1))(a) edge(cal(P)_(f_1^(-1))(f_2), ->)
+            & cal(P)_(f_1^(-1)) (cal(P)_(f_1) (b)) edge("u", c_(f_1^(-1), f_1)^(-1) (b), ->)
+    $))
+    Hence so does its image by $cal(P)_(f_1)$
+    #align(center, diagram(spacing: 2cm, $
+        cal(P)_(f_1)(b) edge(cal(P)_(f_1)(i_B (b)^(-1)), ->) edge("d", cal(P)_(f_1)(g_2), ->)
+            & cal(P)_(f_1)(cal(P)_(id_B) (b)) \
+            cal(P)_f_1(cal(P)_(f_1^(-1))(a)) edge(cal(P)_(f_1)(cal(P)_(f_1^(-1))(f_2)), ->)
+            & cal(P)_f_1(cal(P)_(f_1^(-1)) (cal(P)_(f_1) (b))) edge("u", cal(P)_f_1(c^(-1)_(f_1^(-1), f_1) (b)), ->)
+    $))
+    Thus the following diagram commutes (the other inner squares/triangles are coherence conditions)
+    #align(center, diagram(spacing: 2cm, $
+        cal(P)_(f_1)(b)
+        edge(cal(P)_(f_1)(i_B (b))^(-1), ->) edge("d", cal(P)_(f_1)(g_2), ->)
+        edge("rr", id_(cal(P)_f_1(b)), ->, bend: #30deg)
+            & cal(P)_(f_1)(cal(P)_(id_B) (b))
+            edge("d", cal(P)_f_1(c_(f_1^(-1), f_1) (b)), ->)
+            edge(c^(-1)_(f_1, id_B), ->)
+            & cal(P)_f_1 (b)
+            edge("ddl", c_(id_A, f_1) (b), ->, label-side: #left)
+            edge("dddl", id_(cal(P)_f_1(b)), ->, bend: #50deg) \
+            cal(P)_f_1(cal(P)_(f_1^(-1))(a)) edge(cal(P)_(f_1)(cal(P)_(f_1^(-1))(f_2)), ->)
+            edge("d", c_(f_1, f_1^(-1))(a)^(-1), ->)
+            & cal(P)_f_1(cal(P)_(f_1^(-1)) (cal(P)_(f_1) (b)))
+            
+            edge("d", c_(f_1, f_1^(-1))(cal(P)_(f_1) (b))^(-1), ->) \
+            cal(P)_(id_A) (a) edge(cal(P)_(id_A) (f_2), ->) edge("d", i_A (a), ->)
+            & cal(P)_(id_A) (cal(P)_f_1 (b)) edge("d", i_A (cal(P)_f_1(b)), ->) \
+            a edge(f_2, ->) & cal(P)_f_1 (b)
+    $))
+    the outermost diagram states precisely $
+        f_2 compose hat(f)_2 = id_(cal(P)_f_1 (b))
+    $
+]
+
+#definition([Forgetful fibration])[
+    We can now define the forgetful fibration $
+        pi(cal(P)) &:& integral cal(P) &arrow.long cal(B) \
+        & & (A, a) &mapsto.long A \
+        & & (f_1, f_2) &mapsto.long f_1
+    $
+    which is clearly functorial.
+]
+
+#lemma[
+    The forgetful fibration is a fibration.
+]
+
+#proof[
+    Let $A,B : cal(B)$, $f : A arrow B$ and $b : cal(P)_B$, ie we have the following diagram:
+    #align(center)[#diagram(spacing: 3em, $
+        & (B, b) edge("d", "-[]") \
+        A edge(f, ->) & B
+    $)]
+
+    We can lift $f$ as
+    #align(center)[#diagram(spacing: 2cm, $
+        (A, cal(P)_f (b)) edge((f, id_(cal(P)_f (b))), ->) edge("d", "-[]") & (B, b) edge("d", "-[]") \
+        A edge(f, ->) & B
+    $)]
+
+    Hence, we just have to show that $(f, id_(cal(P)_f (b)))$ is cartesian.  Let $X : cal(B)$, $x :
+    X$, $(g_1, g_2) : (X, x) arrow (B, b)$ and $h : X arrow A$ such that $g_1 = f compose h$:
+
+    #align(center)[#diagram(spacing: 3em, $
+        X edge("dr", g_1, ->) edge("d", h, ->) \
+        A edge(f, ->) & B
+    $)]
+    We have to show there is a unique $hat(h) : x arrow cal(P)_h (cal(P)_f (b))$ with
+
+    #align(center)[#diagram(spacing: 2cm, $
+        x edge("r", g_2, ->) edge("d", hat(h), ->) & cal(P)_g_1 (b) \
+        cal(P)_h (cal(P)_f (b)) edge(cal(P)_h (id_(cal(P)_f (b))), ->)
+            & cal(P)_f (cal(P)_h (b)) edge("u", c^(-1)_(f, g) (b), ->)
+    $)]
+
+    which is equivalent to the following diagram commuting
+
+    #align(center)[#diagram(spacing: 2cm, $
+        & cal(P)_h (cal(P)_f (b)) \
+        x edge("ur", hat(h), ->) edge(g_2, ->) & cal(P)_(g_1) (b) edge("u", c_(f,g) (b), ->)
+    $)]
+
+    but it is obvious that there is exactly one $hat(h)$ that makes this commute, namely, $
+        hat(h) = c_(f,g) (b) compose g_2
+    $
+]
+
+#lemma()[
+    Let $(f_1, f_2)$ be a morphism in $integral cal(P)$.  $f_2$ is an isomorphism.
+] <f2-iso>
+#proof()[
+    Let $(f_1, f_2) : (A, a) arrow (B, b)$.  In the previous proof, we have established
+    that $(f_1, id_(cal(P)_f_1 (b)))$ is cartesian.  Hence, there exists a unique
+    isomorphism $(id_A, phi)$ making the following diagram commute
+    #align(center, diagram(spacing: 2cm, $
+        (A, cal(P)_f_1 (b)) edge("dr", (f_1, id_(cal(P)_f_1(b))), ->)
+        edge("d", (id_A, phi), ->, "dashed") \
+        (A, a) edge((f_1, f_2), ->) & (B, b)
+    $))
+    hence the top square of this diagram commutes
+    #align(center, diagram(spacing: 2cm, $
+        cal(P)_f_1(b) edge("d", phi, ->) edge(id_(cal(P)_f_1(b)), ->)
+            & cal(P)_f_1(b) edge("d", c_(id_A, f_1), ->)
+            edge("dd", id_(cal(P)_f_1 (b)), ->, bend: #60deg)\
+            cal(P)_(id_A) (a) edge(cal(P)_id_A (f_2), ->) edge("d", i_A (a), ->)
+            & cal(P)_id_A (cal(P)_f_1 (b)) edge("d", i_A (cal(P)_f_1(b)), ->) \
+            a edge(f_2, ->) & cal(P)_f_1(b)
+    $))
+    the lower square commutes by naturality of $i_A$, and the triangle commutes by a
+    coherence condition.  Therefore, $ f_2 compose i_A (a) compose phi = id_(cal(P)_f_1(b)) $
+    By @iso-parts-iso, $(id_A, phi)$ is an isomorphism, so $phi$ is too and hence $
+        f_2 = (i_A (a) compose phi)^(-1)
+    $
+    so $f_2$ is an isomorphism.
+]
+
+We thus define $Psi$ on objects by $ Psi(cal(P)) = (integral cal(P), pi(cal(P))) $
+
+== Action of $Psi$ on morphisms
+
+Let $cal(P)$, $cal(P)'$ be two pseudo-functors, and $nu : cal(P) arrow cal(P)'$ a morphism in
+$Pfct(cal(B))$.
+
+#definition[
+    Let $
+        F_nu &:& integral cal(P) &arrow.long integral cal(P)' \
+            && (X, x) &mapsto.long (X, nu_X (x)) \
+            && (f_1, f_2) &mapsto.long (f_1, nu_(f_1) (b)^(-1) compose nu_X (f_2))
+    $
+
+    That is, for $(f_1, f_2) : (A, a) arrow (B, b)$, we have
+    #align(center, diagram(spacing: 3cm, $
+        nu_X (a) edge(nu_A (f_2), ->) edge("dr", (F_nu (f_1, f_2))_2, ->, label-side: #right)
+            & nu_A (cal(P)_(f_1) (b)) edge("d", nu_(f_1)(b)^(-1), ->) \
+            & cal(P)'_(f_1) (nu_B (b))
+    $))
+]
+
+#lemma[$F_nu$ is a fibration morphism]
+#proof[
+    We have to show that it makes the following diagram commute
+    #align(center, diagram(spacing: 2cm, $
+        integral cal(P) edge("d", pi(cal(P)), ->) edge(F_nu, ->) & integral cal(P)' edge("d", pi(cal(P)'), ->) \
+        cal(B) edge(id_B, ->) & cal(B)
+    $))
+    and that $F_nu$ preserves the cartisian morphisms.
+    - Let's show the two functors agree:
+        - on objects: let $(X, x) : integral cal(P)$, $
+            pi(cal(P)') (F_nu (X, x)) &= pi(cal(P)') (X, nu_X (x)) \
+                &= X \
+                &= pi(cal(P))(X, x)
+        $
+        - on morphisms: let $(f_1, f_2) : (A, a) arrow (B, b)$, $
+            pi(cal(P)') (F_nu (f_1, f_2)) &= pi(cal(P)') ((f_1, nu_(f_1) (b)^(-1) compose nu_A (f_2))) \
+                &= f_1 \
+                &= pi(cal(P))(f_1, f_2)
+          
+        $
+      Hence the diagram commutes.
+    - Let $(f_1, f_2) : (A, a) arrow (B, b)$ be a cartesian morphism in $integral cal(P)$.  Let
+      $(g_1, g_2) : (C, c) arrow (B, nu_B (b))$ be a morphism in $integral cal(P)'$ and $h_1 : C arrow B$
+      in $cal(B)$ such that the following diagram commutes
+      #align(center, diagram(spacing: 2cm, $
+          C edge("d", h_1, ->) edge("dr", g_1, ->) \
+          A edge(f_1, ->) & B
+      $))
+
+      Let's show that there exists a unique $h_2 : c arrow cal(P)'_h_1 (a)$ such that
+      #align(center, diagram(spacing: 4cm, $
+          (C, c) edge("dr", (g_1, g_2), ->) edge("d", (h_1, h_2), ->) \
+          (A, nu_A (a)) edge((f_1, nu_f_1 (b)^(-1) compose nu_A (f_2)), ->, label-side: #right) & (B, nu_B (b))
+      $))
+      that is
+      #align(center, diagram(spacing: 2cm, $
+          c edge(g_2, ->) edge("dd", h_2, ->)
+              & cal(P)'_g_1 (nu_B (b)) edge("d", c'_(h_1, f_1) (nu_B (b)), ->, label-side: #left) \
+              
+              & cal(P)'_h_1 (cal(P)'_f_1 (nu_B (b))) edge("d", cal(P)'_h_1 (nu_f_1 (b)), ->, label-side: #left) \
+              cal(P)'_h_1 (nu_A (a)) edge(cal(P)'_h_1 (nu_A (f_2)), ->)
+              & cal(P)'_h_1(nu_A (cal(P)_f_1 (b))) 
+      $))
+
+      By @f2-iso, $f_2$ is an isomorphism, hence the commutation of the latter diagram is
+      equivalent to that of the following, for which there clearly exists a unique $h_2$
+    #align(center, diagram(spacing: 2cm, $
+          c edge(g_2, ->) edge("dd", h_2, ->)
+              & cal(P)'_g_1 (nu_B (b)) edge("d", c'_(h_1, f_1) (nu_B (b)), ->, label-side: #left) \
+              
+              & cal(P)'_h_1 (cal(P)'_f_1 (nu_B (b))) edge("d", cal(P)'_h_1 (nu_f_1 (b)), ->, label-side: #left) \
+              cal(P)'_h_1 (nu_A (a)) edge(cal(P)'_h_1 (nu_A (f_2^(-1))), <-)
+              & cal(P)'_h_1(nu_A (cal(P)_f_1 (b))) 
+      $))
+      // Attempt:
+      // #align(center, diagram(spacing: 2cm, $
+      
+      // $))
+      
+      // Attempt:
+      // #align(center, diagram(spacing: 2cm, $
+      //     c edge(g_2, ->) edge("dd", h_2, ->)
+      //         & cal(P)'_g_1 (nu_B (b))
+      //         edge("d", c'_(h_1, f_1) (nu_B (b)), ->, label-side: #left)
+      //         edge(nu_g_1 (b), ->)
+      //         & nu_A (cal(P)_g_1 (b))
+      //         edge("dd", nu_A (c_(h_1, f_1) (b)), ->, label-side: #left) \
+              
+      //         & cal(P)'_h_1 (cal(P)'_f_1 (nu_B (b)))
+      //         edge("d", cal(P)'_h_1 (nu_f_1 (b)), ->, label-side: #left) \
+      //         cal(P)'_h_1 (nu_A (a)) edge(cal(P)'_h_1 (nu_A (f_2)), ->)
+      //         edge("dr", nu_h_1 (a), ->, label-side: #right)
+      //         & cal(P)'_h_1(nu_A (cal(P)_f_1 (b)))
+      //         & nu_A (cal(P)_h_1 (cal(P)_f_1 (b)))
+      //         edge("l", nu_h_1 (cal(P)_f_1(b)), <-) \
+      //         & nu_A (cal(P)_h_1 (a)) edge("ur", nu_A (cal(P)_h_1 (f_2)), ->, label-side: #right)
+      // $))
+      
+      // Nice but false:
+      // $(f_1, f_2)$ is cartesian, hence invertible TODO, and by @iso-iff-parts-iso, $f_2$ is invertible,
+      // hence the above diagram commuting is equivalent to the following one
+      // #align(center, diagram(spacing: 2cm, $
+      //     c edge(g_2, ->) edge("dd", h_2, ->)
+      //         & cal(P)'_g_1 (nu_B (b)) edge("d", c'_(h_1, f_1) (nu_B (b)), ->, label-side: #left) \
+              
+      //         & cal(P)'_h_1 (cal(P)'_f_1 (nu_B (b))) edge("d", cal(P)'_h_1 (nu_f_1 (b)), ->, label-side: #left) \
+      //         cal(P)'_h_1 (nu_A (a)) edge(cal(P)'_h_1 (nu_A (f_2^(-1))), <-)
+      //         & cal(P)'_h_1(nu_A (cal(P)_f_1 (b))) 
+      // $))
+      // which clearly has a unique solution for $h_2$.
+]
 // Local Variables:
 // tp--master-file: "/home/adri/dev/notes/notes.typ"
 // End:
