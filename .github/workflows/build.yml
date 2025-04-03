@@ -17,9 +17,6 @@ jobs:
         with:
           name: PDF
           path: notes.pdf
-      - name: Get current date
-        id: date
-        run: echo "DATE=$(date +%Y-%m-%d-%H)" >> $GITHUB_ENV
       - name: Delete old release
         uses: mknejp/delete-release-assets@v1
         with:
@@ -37,5 +34,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: github.ref_type == 'tag'
         with:
-          name: "${{ github.ref_name }} – ${{ env.DATE }}"
+          name: "${{ github.ref_name }}"
           files: notes.pdf
