@@ -775,12 +775,12 @@ it.
 ]
 
 #lemma()[
-    Let $(f_1, f_2)$ be a morphism in $integral cal(P)$.  $f_2$ is an isomorphism.
+    Let $(f_1, f_2)$ be a cartesian morphism in $integral cal(P)$.  $f_2$ is an isomorphism.
 ] <f2-iso>
 #proof()[
-    Let $(f_1, f_2) : (A, a) arrow (B, b)$.  In the previous proof, we have established
-    that $(f_1, id_(cal(P)_f_1 (b)))$ is cartesian.  Hence, there exists a unique
-    isomorphism $(id_A, phi)$ making the following diagram commute
+    Let $(f_1, f_2) : (A, a) arrow (B, b)$ be a cartesian morphism.  In the previous proof, we
+    have established that $(f_1, id_(cal(P)_f_1 (b)))$ is cartesian.  Hence, there exists a
+    unique isomorphism $(id_A, phi)$ making the following diagram commute
     #align(center, diagram(spacing: 2cm, $
         (A, cal(P)_f_1 (b)) edge("dr", (f_1, id_(cal(P)_f_1(b))), ->)
         edge("d", (id_A, phi), ->, "dashed") \
