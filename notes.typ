@@ -938,6 +938,42 @@ Let $cal(P) : cal(B)^(op) arrow Cat$ be a pseudo-functor.
 ]
 
 #lemma[
+    For $X : cal(B)$, $H^(cal(P))_X$ is a functor.
+]
+#proof[
+    Let $(X, x) : pi(cal(P))^(-1)_X$.  $id_(X, x) = (id_X, i_X^(-1)(x))$, and so $
+        H^cal(P)_X (id_(X, x)) &= i_X (x) compose i_X^(-1)(x) \
+            &= id_x
+    $
+    Furthermore, for $(X, a), (X, b), (X, c) : pi(cal(P))^(-1)_X$ and $(id_X, f) : (X, a)
+    arrow (X, b)$ and $(id_X, f) : (X, b) arrow (X, c)$, $
+        H^(cal(P))_X ((id_X, g) compose (id_X, f)) &= H^(cal(P))_X (id_X,
+        c^(-1)_(id_X, id_X) (c) compose cal(P)_id_X (g) compose f) \
+            &= i_X (c) compose c^(-1)_(id_X, id_X) (c) compose cal(P)_id_X (g) compose f
+    $
+    #align(center, diagram(spacing: 2cm, $
+        a edge("d", f, ->) \
+        cal(P)_id_X (b) edge("d", cal(P)_id_X (g), ->) edge(i_X (b), ->)
+            & b edge("d", g, ->) \
+            cal(P)_id_X (cal(P)_id_X (c))
+            edge("d", c^(-1)_(id_X, id_X), ->)
+            edge(i_X (cal(P)_id_X (c)), ->)
+            & cal(P)_id_X (c) edge("d", i_X (c), ->) \
+            cal(P)_id_X (c)
+            edge("r", i_X (c), ->)
+            edge("ur", id_(cal(P)_id_X (c)), ->)
+            & c
+    $))
+    the lower right triangle commutes trivially, the triangle above commutes by
+    a composition/identity coherence, and the square above by naturality of $i_X$.
+    The outer diagram shows that $
+        i_X (c) compose c^(-1)_(id_X, id_X) (c) compose cal(P)_id_X (g) compose f
+        = underbrace((i_X (c) compose g), = H^cal(P)_X (id_X, g))
+        compose underbrace((i_X (b) compose f), = H^cal(P)_X (id_X, f))
+    $
+]
+
+#lemma[
     $H^(cal(P))$ is a morphism in $Pfct(cal(B))$.
 ]
 #proof[
@@ -975,23 +1011,73 @@ Let $cal(P) : cal(B)^(op) arrow Cat$ be a pseudo-functor.
       square implies the following commutation on the second component of the morphisms
       #align(center, diagram(spacing: 2cm, $
           H^cal(P)_X (pi(cal(P))^(-1)_f (Y, y)) edge(eta_f (y), ->) edge("d", h, ->)
-              & P_f (y) edge("d", P_f (g), ->) \
+              & cal(P)_f (y) edge("d", cal(P)_f (g), ->) \
+              cal(P)_id_X(H^cal(P)_X (pi(cal(P)^(-1)_f (Y, y'))))
+              edge("d", cal(P)_id_X (eta_f (y')), ->, label-side: #left)
+              edge("dd", i_X (H^cal(P)_X (pi(cal(P)^(-1)_f (Y, y')))), ->, bend: #(-60deg))
+              & cal(P)_f (cal(P)_id_Y (y')) edge("d", c^(-1)_(f, id_X), ->)
+              edge("dd", cal(P)_f (i_X (y')), ->, bend: #60deg) \
+              cal(P)_id_X (cal(P)_f (y')) edge(c^(-1)_(id_X, f) (y'), ->)
+              edge("dr", i_X (cal(P)_f (y')), ->, label-side: #right)
+              & cal(P)_f (y') edge("d", id_(cal(P)_f (y')), ->, label-side: #left) \
+              H^(cal(P))_X (pi(cal(P))^(-1)_f (Y, y')) edge(eta_f (y'), ->, label-side: #right)
+              & cal(P)_f (y')
       
       $))
-    TODO
+      the two triangles commute by a composition/identity coherence, while the left square
+      is the naturality of $i_X$.  Note that the outermost diagram is exactly the one we
+      were looking for, showing that $eta_f$ is natural.
+    - $(f, eta_f (y) = [f]_(Y, y))$ is cartesian (by definition of $[-]_-$), hence, by
+      @f2-iso, $eta_f (y)$ is an isomorphism, showing that $eta_f$ is a natural isomorphism.
 ]
 
 #lemma[$H^cal(P)$ is an isomorphism.]
-#proof[TODO]
+#proof[
+    To show that $H^(cal(P))$ is a pseudo-natural isomorphism, it is enough to show that
+    each of its components is an isomorphism.  Let $X : cal(B)$.  It is clear that both
+    actions on objects and on morphisms of $H^cal(P)_X$ are invertible.
+]
 
 #lemma[$H^cal(P)$ is natural in $cal(P)$.]
-#proof[TODO]
+#proof[
+    Let $cal(P), cal(P)' : cal(B)^op arrow Cat$ be two pseudo-functors, and $nu : cal(P)
+    arrow cal(P)'$ be a pseudo-natural transformation.  We have to show that
+    #align(center, diagram(spacing: 2cm, $
+        pi(cal(P))^(-1) edge("d", nu^(F_nu), ->) edge(H^cal(P), ->) & cal(P) edge("d", nu, ->) \
+        pi(cal(P)'^(-1)) edge(H^(cal(P)'), ->) & cal(P)'
+    $))
+    Hence, we have to show that the diagram commutes at each point $X : cal(B)$
+    #align(center, diagram(spacing: 2cm, $
+        pi(cal(P))^(-1)_X edge("d", nu^(F_nu)_X, ->) edge(H^cal(P)_X, ->) & cal(P)_X edge("d", nu_X, ->) \
+        pi(cal(P)'^(-1)_X) edge(H^(cal(P)')_X, ->) & cal(P)'_X
+    $))
+    Let's check that the functor agree on each object and morphisms:
+    - let $x : cal(P)_X$.
+      $
+          H^(cal(P)'_X (nu^(F_nu)_X (X, x))) &= H^(cal(P)')_X (F_nu (X, x)) \
+              &= H^cal(P)'_X (X, nu_X (x)) \
+              &= nu_X (x) \
+              &= nu_X (H^cal(P)_X (X, x))
+      $
+    - let $x, y : cal(P)_X$, and $f : x arrow cal(P)_id_X (y)$.
+      $
+          nu_X (H^cal(P)_X (id_X, f)) &= nu_X (i_X (y) compose f) \
+              &= nu_X (i_X (y)) compose nu_X (f)
+      $
+      and $
+          H^(cal(P)')_X (nu^(F_nu)_X (id_X, f)) &= H^(cal(P)')_X (F_nu (id_X, f)) \
+              &= H^(cal(P)')_X (id_X, nu_id_X (y)^(-1) compose nu_X (f_2)) \
+              &= i'_X (nu_X(y)) compose nu_id_X (y)^(-1) compose nu_X (f)
+      $
+      the two are equal by a coherence condition.
+      TODO: check properly
+]
 
 #lemma[
     $ Phi compose Psi tilde.equiv id_(Pfct(cal(B))) $
 ]
 #proof[
-    We have exhibited a natural isomophism $ H : Phi compose Psi arrow.double.long id_(Pfct(cal(B))) $
+    We have exhibited a natural isomorphism $ H : Phi compose Psi arrow.double.long id_(Pfct(cal(B))) $
 ]
 
 == $Psi compose Phi$
@@ -1015,13 +1101,122 @@ $
 #lemma[
     $G_p$ is a fibration morphism.
 ]
-#proof[TODO]
+#proof[
+    There are two things to check: the commutation with the fibrations, and the
+    preservation of cartesian morphisms.  Let's proceed in order.
+    + #box(width: 100%)[]
+      #align(center, diagram(spacing: 2cm, $
+          integral p^(-1) edge("rr", G_p, ->) edge("dr", pi(p^(-1)))
+              & & cal(E) edge("dl", p, ->) \
+              & cal(B)
+      $))
+      Let's check that the two functors agree on objects and morphisms.
+      - let $(X, x) : integral p^(-1)$, ie $X = p(x)$
+        $
+            p(G_p (X, x)) &= p(x) \
+                &= X \
+                &= pi(p^(-1)) (X, x)
+        $
+      - let $(X, x), (Y, y) : integral p^(-1)$, and $(f_1, f_2) : (X, x) arrow (Y, y)$.
+        We have $
+            p(G_p (f_1, f_2)) &= p([f_1]_y compose f_2) \
+                &= p([f_1]_y) compose p(f_2) \
+                &= f_1 compose id_X \
+                &= f_1 \
+                &= pi(p^(1)) (f_1, f_2)
+        $
+    + Let $(f_1, f_2) : (X, S) arrow (Y, R)$ be a cartesian morphism.  By @f2-iso,
+      $f_2$ is an isomorphism.  Let $h : X' arrow X$ and $g : R' arrow R$ such that
+      the following diagram commutes
+      #align(center, diagram(spacing: 2cm, $
+          R' edge("dd", "-[]") edge("drrr", g, ->, bend: #20deg) \
+              & S edge("d", "-[]") edge(f_2, ->)
+              & p^(-1)_(f_1) (R) edge("d", "-[]") edge([f_1]_R, ->)
+              & R edge("d", "-[]") \
+              X' edge(h, ->) & X edge(id_X, ->) & X edge(f_1, ->) & Y
+      $))
+      By cartesianity of $[f_1]_R$, there exists a unique $hat(h) : R' arrow p^(-1)_f_1 (R)$
+      such that the following diagram commutes
+      #align(center, diagram(spacing: 2cm, $
+          R' edge("dd", "-[]") edge("drrr", g, ->, bend: #20deg)
+          edge("drr", hat(h), ->, bend: #10deg, "dashed") \
+              & S edge("d", "-[]") edge(f_2, ->)
+              & p^(-1)_(f_1) (R) edge("d", "-[]") edge([f_1]_R, ->)
+              & R edge("d", "-[]") \
+              X' edge(h, ->) & X edge(id_X, ->) & X edge(f_1, ->) & Y
+      $))
+      Hence, $f_2^(-1) compose hat(h)$ satisfies the wanted property.  Furthermore,
+      for any $tilde(h) : R' arrow S$ that makes the following diagram commute
+      #align(center, diagram(spacing: 2cm, $
+          R' edge("dd", "-[]") edge("drrr", g, ->, bend: #20deg)
+          edge("drr", hat(h), ->, bend: #10deg)
+          edge("dr", tilde(h), ->) \
+              & S edge("d", "-[]") edge(f_2, ->)
+              & p^(-1)_(f_1) (R) edge("d", "-[]") edge([f_1]_R, ->)
+              & R edge("d", "-[]") \
+              X' edge(h, ->) & X edge(id_X, ->) & X edge(f_1, ->) & Y
+      $))
+      note that $f_2 compose tilde(h)$ satisfies the same universal property as $hat(h)$,
+      hence $f_2 compose tilde(h) = hat(h)$, and thus $
+          tilde(h) = f^(-1)_2 compose hat(h)
+      $
+      which shows the unicity.
+]
 
 #lemma[$G_p$ is an isomorphism.]
-#proof[TODO]
+#proof[
+    Let us exhibit an inverse morphism $
+        K_p &: cal(E) arrow.long integral p^(-1)
+    $
+    - #box(width: 100%)[if $R : cal(E)$, we define] $ K_p (R) = (p(R), R) $
+    - if $S, R : cal(E)$ and $f : S arrow.long R$ is a morphism in $cal(E)$, by
+      cartesianity of $[p(f)]_R$, there exists a unique $hat(f) : S arrow p^(-1)_(p(f)) (R)$
+      such that the following diagram commutes
+      #align(center, diagram(spacing: 2cm, $
+          S edge("d", hat(f), ->, "dashed") edge("dd", "-[]", bend: #(-30deg))
+          edge("dr", f, ->) \
+          p^(-1)_(p(f))(R) edge("d", "-[]") edge([p(f)]_R, ->) & R edge("d", "-[]") \
+          p(S) edge(p(f), ->) & p(R)
+      $))
+      Let $ K_p = (p(f), hat(f)) $
+
+    Let us show that $K_p$ is the inverse of $G_p$ (which will entail that it is a functor),
+    and that it is a fibration morphism.
+    + #box(width: 100%)[TODO]
+    + We have to check that the following diagram commutes
+      #align(center, diagram(spacing: 2cm, $
+          cal(E) edge("rr", K_p, ->) edge("dr", p, ->)
+              & & integral p^(-1) edge("dl", pi(p^(-1)), ->) \
+              & cal(B)
+      $))
+      Let's check that the two functors agree on objects and morphisms.
+      - #box(width: 100%)[Let $R : cal(E)$]
+        $
+            pi(p^(1))(K_p (R)) &= pi(p^(-1))(p(R), R) \
+                &= p(R)
+        $
+      - Let $S, R : cal(E)$ and $f : S arrow R$ a morphism in $cal(E)$
+        $
+            pi(p^(-1))(K_p (f)) &= pi(p^(-1)) (p(f), hat(f)) \
+                &= p(f)
+        
+        $
+      Furthermore, we have to check that $K_p$ preserves cartesian morphisms.  Let $f$ be
+      cartesian.  $hat(f)$ is (the canonical) isomorphism between the domains living in
+      the same fiber, of two cartesian morphisms.  In particular, it is an isomorphism,
+      hence $(p(f), hat(f))$ is cartesian.  TODO: link relevant lemma
+]
 
 #lemma[$G_p$ is natural in $p$.]
-#proof[TODO]
+#proof[
+    Let $p : cal(E) arrow cal(B)$ and $q : cal(F) arrow cal(B)$ be two fibrations, and
+    $F : p arrow q$ be a morphism of fibrations.  Let's check that the following diagram
+    commutes
+    #align(center, diagram(spacing: 2cm, $
+        integral p^(-1) edge(G_p, ->) edge("d", F_(nu^F), ->) & cal(E) edge("d", F, ->) \
+        integral q^(-1) edge(G_q, ->) & cal(F)
+    $))
+]
 
 #lemma[
     $ Psi compose Phi tilde.equiv id_(Fib(cal(B))) $
