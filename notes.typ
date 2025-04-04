@@ -1031,10 +1031,19 @@ Let $cal(P) : cal(B)^(op) arrow Cat$ be a pseudo-functor.
       and $
           H^(cal(P)')_X (nu^(F_nu)_X (id_X, f)) &= H^(cal(P)')_X (F_nu (id_X, f)) \
               &= H^(cal(P)')_X (id_X, nu_id_X (y)^(-1) compose nu_X (f_2)) \
-              &= i'_X (nu_X(y)) compose nu_id_X (y)^(-1) compose nu_X (f)
+              &= i_X (nu_X (y)) compose nu_id_X (y)^(-1) compose nu_X (f)
       $
-      the two are equal by a coherence condition.
-      TODO: check properly
+      #box(width: 100%)[We need to check that the following diagram commutes]
+      #align(center, diagram(spacing: 2cm, $
+          nu_X (a) edge("r", nu_X (f), ->) edge("d", nu_X (f), ->)
+              & nu_X (cal(P)_id_X (y)) edge("dd", nu_X (i_X (y)), ->) \
+              nu_X (cal(P)_id_X (y)) edge("d", nu_id_X (y)^(-1), ->)
+              edge("ur", id_(nu_X (cal(P)_id_X (y))), ->) \
+              cal(P)_id_X (nu_X (y)) edge(i'_X (nu_X (y)), ->)
+              & nu_X (y)
+      $))
+      note that the lower square commutes by a coherence condition on pasting diagrams,
+      and the upper triangle trivially commutes.
 ]
 
 #lemma[
