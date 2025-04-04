@@ -1063,6 +1063,57 @@ $
 ]
 
 #lemma[
+    $G_p$ is a functor.
+]
+#proof[
+    Let $(X, R) : integral p^(-1)$.  $id_(X, R) = (id_X, i^(-1)_X (R))$.  We have to show
+    that the following diagram commutes
+    #align(center, diagram(spacing: 2cm, $
+        R edge("d", i^(-1)_X (R), ->) edge("dr", id_R, ->) \
+        p^(-1)_id_X (R) edge([id_X]_R, ->) & R
+    $))
+    which commutes by definition of $i_X$.
+
+    Furthermore, let $(X, R), (Y, S), (Z, T) : integral p^(-1)$, and $
+        (f_1, f_2) &: (X, R) arrow.long (Y, S) \
+        (g_1, g_2) &: (Y, S) arrow.long (Z, T)
+    $
+    Let us show that $G_p ((g_1, g_2) compose (f_1, f_2)) = G_p (g_1, g_2) compose
+    G_p (f_1, f_2)$, that is, that the following diagram commutes
+    #align(center, diagram(spacing: 2cm, $
+        R edge(f_2, ->)
+        edge("d", f_2, ->)
+            & p^(-1)_f_1 (S) edge("d", [f_1]_S, ->) \
+            p^(-1)_f_1 (S) edge("d", p^(-1)_f_1 (g_2), ->)
+            
+            & S edge("d", g_2, ->) \
+            p^(-1)_f_1 (p^(-1)_g_1 (T)) edge("d", [f_1, g_1]_R^(-1), ->)
+            & p^(-1)_g_1 (T) edge("d", [g_1]_T, ->) \
+            p^(-1)_(g_1 compose f_1) (T) edge([g compose f]_T, ->)
+            & T
+    $))
+    We indeed have the following diagram commutes
+    #align(center, diagram(spacing: 2cm, $
+        R edge(f_2, ->)
+        edge("d", f_2, ->)
+            & p^(-1)_f_1 (S) edge("d", [f_1]_S, ->) \
+            p^(-1)_f_1 (S)
+            edge([f_1]_S, ->)
+            edge("d", p^(-1)_f_1 (g_2), ->)
+            
+            & S edge("d", g_2, ->) \
+            p^(-1)_f_1 (p^(-1)_g_1 (T))
+            edge([f_1]_(p^(-1)_g_1 (T)), ->)
+            edge("d", [f_1, g_1]_R^(-1), ->)
+            & p^(-1)_g_1 (T) edge("d", [g_1]_T, ->) \
+            p^(-1)_(g_1 compose f_1) (T) edge([g compose f]_T, ->)
+            & T
+    $))
+    as the lower square commutes by definition of $[f_1, g_1]_R$, the middle one
+    by definition of $p_(f_1)^(-1)(g_2)$, and the top one commutes trivially.
+]
+
+#lemma[
     $G_p$ is a fibration morphism.
 ]
 #proof[
