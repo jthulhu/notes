@@ -60,13 +60,6 @@ if $f = p(alpha)$.
     $)]
 ]
 
-#lemma()[
-    A cartesian morphism is an isomorphism.
-]<cartesian-iso>
-#proof()[
-    Let $R,S : cal(E)$ and $alpha : R arrow S$ be a cartesian morphism in $cal(E)$.
-]
-
 #definition("Fibration")[
     $p$ is said to be a _fibration_ if, for any
     #align(center)[#diagram(spacing: 2cm, $
@@ -1225,8 +1218,14 @@ $
 
     Let us show that $K_p$ is the inverse of $G_p$ (which will entail that it is a functor),
     and that it is a fibration morphism.
-    + #box(width: 100%)[TODO]
-    + We have to check that the following diagram commutes
+    + It is clear that $K_p$ and $G_p$ are each other's inverse on objects.  Let
+      $(f_1, f_2)$ be a morphism in $integral p^(-1)$.  We have that
+      $p([f_1]_R compose f_2) = p([f_1]_R) compose p(f_2) = f_1 compose id = f_1$.
+      Furthermore, $f_2$ is precisely the cartesian lifting of the identity by
+      $[f_1]_R$, so we have $K_p (G_p (f_1, f_2)) = (f_1, f_2)$.
+      Conversely, let $f : S arrow R$ be a morphism in $cal(E)$.  By definition of $hat(f)$,
+      we have $f = [p(f)] compose hat(f)$, so $G_p (K_p (f)) = f$.
+    + #box(width: 100%)[We have to check that the following diagram commutes]
       #align(center, diagram(spacing: 2cm, $
           cal(E) edge("rr", K_p, ->) edge("dr", p, ->)
               & & integral p^(-1) edge("dl", pi(p^(-1)), ->) \
@@ -1247,7 +1246,7 @@ $
       Furthermore, we have to check that $K_p$ preserves cartesian morphisms.  Let $f$ be
       cartesian.  $hat(f)$ is (the canonical) isomorphism between the domains living in
       the same fiber, of two cartesian morphisms.  In particular, it is an isomorphism,
-      hence $(p(f), hat(f))$ is cartesian.  TODO: link relevant lemma
+      hence $(p(f), hat(f))$ is cartesian by @ff-cartesian.
 ]
 
 #lemma[$G_p$ is natural in $p$.]
@@ -1259,6 +1258,24 @@ $
         integral p^(-1) edge(G_p, ->) edge("d", F_(nu^F), ->) & cal(E) edge("d", F, ->) \
         integral q^(-1) edge(G_q, ->) & cal(F)
     $))
+    Let's check that the two functors agree on objects and morphisms.  Let
+    $(X, R) : integral p^(-1)$.
+    $
+        G_q (F_(nu^F) (X, R)) &= G_q (X, nu^F (R)) \
+            &= nu^F_X (R) \
+            &= F(R) \
+            &= F(G_p (X, R))
+    $
+    
+    Let $(X, R), (Y, S) : integral p^(-1)$ and $(f_1, f_2) : (X, R) arrow (Y, S)$ be a
+    morphism in $integral p^(-1)$. $
+        G_q (F_(nu^F) (f_1, f_2)) &= G_q (f_1, nu_f_1^F (S)^(-1) compose nu_X^F (f_2)) \
+            &= [f_1]_F(R) compose nu_f_1^F (S)^(-1) compose nu_X^F (f_2) \
+            &= [f_1]_F(R) compose nu_f_1^F (S)^(-1) compose F(f_2) \
+            &= F([f_1]_R) compose F(f_2) \
+            &= F([f_1]_R compose f_2) \
+            &= F(G_p (f_1, f_2))
+    $
 ]
 
 #lemma[
