@@ -879,42 +879,6 @@ $Pfct(cal(B))$.
               cal(P)'_h_1 (nu_A (a)) edge(cal(P)'_h_1 (nu_A (f_2^(-1))), <-)
               & cal(P)'_h_1(nu_A (cal(P)_f_1 (b))) 
       $))
-      // Attempt:
-      // #align(center, diagram(spacing: 2cm, $
-      
-      // $))
-      
-      // Attempt:
-      // #align(center, diagram(spacing: 2cm, $
-      //     c edge(g_2, ->) edge("dd", h_2, ->)
-      //         & cal(P)'_g_1 (nu_B (b))
-      //         edge("d", c'_(h_1, f_1) (nu_B (b)), ->, label-side: #left)
-      //         edge(nu_g_1 (b), ->)
-      //         & nu_A (cal(P)_g_1 (b))
-      //         edge("dd", nu_A (c_(h_1, f_1) (b)), ->, label-side: #left) \
-              
-      //         & cal(P)'_h_1 (cal(P)'_f_1 (nu_B (b)))
-      //         edge("d", cal(P)'_h_1 (nu_f_1 (b)), ->, label-side: #left) \
-      //         cal(P)'_h_1 (nu_A (a)) edge(cal(P)'_h_1 (nu_A (f_2)), ->)
-      //         edge("dr", nu_h_1 (a), ->, label-side: #right)
-      //         & cal(P)'_h_1(nu_A (cal(P)_f_1 (b)))
-      //         & nu_A (cal(P)_h_1 (cal(P)_f_1 (b)))
-      //         edge("l", nu_h_1 (cal(P)_f_1(b)), <-) \
-      //         & nu_A (cal(P)_h_1 (a)) edge("ur", nu_A (cal(P)_h_1 (f_2)), ->, label-side: #right)
-      // $))
-      
-      // Nice but false:
-      // $(f_1, f_2)$ is cartesian, hence invertible TODO, and by @iso-iff-parts-iso, $f_2$ is invertible,
-      // hence the above diagram commuting is equivalent to the following one
-      // #align(center, diagram(spacing: 2cm, $
-      //     c edge(g_2, ->) edge("dd", h_2, ->)
-      //         & cal(P)'_g_1 (nu_B (b)) edge("d", c'_(h_1, f_1) (nu_B (b)), ->, label-side: #left) \
-              
-      //         & cal(P)'_h_1 (cal(P)'_f_1 (nu_B (b))) edge("d", cal(P)'_h_1 (nu_f_1 (b)), ->, label-side: #left) \
-      //         cal(P)'_h_1 (nu_A (a)) edge(cal(P)'_h_1 (nu_A (f_2^(-1))), <-)
-      //         & cal(P)'_h_1(nu_A (cal(P)_f_1 (b))) 
-      // $))
-      // which clearly has a unique solution for $h_2$.
 ]
 
 = The equivalence <equivalence>
