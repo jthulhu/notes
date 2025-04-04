@@ -991,7 +991,7 @@ Let $cal(P) : cal(B)^(op) arrow Cat$ be a pseudo-functor.
       the two triangles commute by a composition/identity coherence, while the left square
       is the naturality of $i_X$.  Note that the outermost diagram is exactly the one we
       were looking for, showing that $eta_f$ is natural.
-    - $(f, eta_f (y) = [f]_(Y, y))$ is cartesian (by definition of $[-]_-$), hence, by
+    - $(f, eta_f (y)) = [f]_(Y, y)$ is cartesian (by definition of $[-]_-$), hence, by
       @f2-iso, $eta_f (y)$ is an isomorphism, showing that $eta_f$ is a natural isomorphism.
 ]
 
