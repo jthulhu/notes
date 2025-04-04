@@ -803,6 +803,25 @@ it.
     so $f_2$ is an isomorphism.
 ]
 
+#lemma[
+    Let $(f_1, f_2)$ be a morphism in $integral cal(P)$, with $f_2$ an isomorphism.
+    $(f_1, f_2)$ is cartesian.
+] <ff-cartesian>
+#proof[
+    Let $(f_1, f_2) : (X, x) arrow (Y, y)$, with $f_2 : x arrow cal(P)_f_1 (y)$ an
+    isomorphism, $(g_1, g_2) : (Z, z) arrow (Y, y)$ and $h : Z arrow X$ such that
+    $g_1 = f_1 compose h$.  We want to find a unique $hat(h) : z arrow cal(P)_h (x)$ such
+    that $(g_1, g_2) = (f_1, f_2) compose (h, hat(h))$, which is equivalent to the
+    commutation of the following diagram
+    #align(center, diagram(spacing: 2cm, $
+        z edge("d", hat(h), ->, "dashed") edge(g_2, ->)
+            & cal(P)_g_1 (y) edge("d", c_(h, f_1) (y), ->) \
+        cal(P)_h (x) edge(cal(P)_h (f_2), ->) & cal(P)_h (cal(P)_f_1 (y))
+    $))
+    Since $f_2$ is an iso, it is clear that there is a unique $hat(h)$ making the above
+    diagram commute.
+]
+
 We thus define $Psi$ on objects by $ Psi(cal(P)) = (integral cal(P), pi(cal(P))) $
 
 == Action of $Psi$ on morphisms
