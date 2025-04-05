@@ -7,16 +7,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Build the PDF
+      - name: Build the notes
         uses: lvignoli/typst-action@main
         with:
           source_file: |
             notes.typ
+      - name: Build the slides
+        uses: lvignoli/typst-action@main
+        with:
+          source_file: |
+            presentation.typ
       - name: Upload the PDF file
         uses: actions/upload-artifact@v4
         with:
           name: PDF
-          path: notes.pdf
+          path: |
+            notes.pdf
+            presentation.pdf
       - name: Delete old release
         uses: mknejp/delete-release-assets@v1
         with:
@@ -28,14 +35,18 @@ jobs:
       - name: Release to main
         uses: softprops/action-gh-release@v1
         with:
-          files: notes.pdf
+          files: |
+            notes.pdf
+            presentation.pdf
           tag_name: latest
       - name: Release
         uses: softprops/action-gh-release@v1
         if: github.ref_type == 'tag'
         with:
           name: "${{ github.ref_name }}"
-          files: notes.pdf
+          files: |
+            notes.pdf
+            presentation.pdf
       - name: Wrap up artifacts
         run: |
           mkdir build
