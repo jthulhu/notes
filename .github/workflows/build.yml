@@ -2,28 +2,24 @@ name: Build notes
 on: push
 
 jobs:
-  build_typst_notes:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # Grothendieck Fibrations
       - name: Build the notes
         uses: lvignoli/typst-action@main
         with:
           source_file: |
-            notes.typ
+            grothendieck-fibrations.typ
       - name: Build the slides
         uses: lvignoli/typst-action@main
         with:
           source_file: |
-            presentation.typ
-      - name: Upload the PDF file
-        uses: actions/upload-artifact@v4
-        with:
-          name: PDF
-          path: |
-            notes.pdf
-            presentation.pdf
+            grothendieck-fibrations-slides.typ
+
       - name: Delete old release
         uses: mknejp/delete-release-assets@v1
         with:
@@ -35,18 +31,14 @@ jobs:
       - name: Release to main
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            notes.pdf
-            presentation.pdf
+          files: '*.pdf'
           tag_name: latest
       - name: Release
         uses: softprops/action-gh-release@v1
         if: github.ref_type == 'tag'
         with:
           name: "${{ github.ref_name }}"
-          files: |
-            notes.pdf
-            presentation.pdf
+          files: '*.pdf'
       - name: Wrap up artifacts
         run: |
           mkdir build
@@ -56,9 +48,10 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: build
+
   deploy_pages:
     runs-on: ubuntu-latest
-    needs: build_typst_notes
+    needs: build
     permissions:
       pages: write
       id-token: write
