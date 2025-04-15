@@ -413,5 +413,5 @@
 ]
 
 // Local Variables:
-// tp--master-file: "/home/adri/dev/notes/presentation.typ"
+// tp--master-file: "./grothendieck-fibrations-slides.typ"
 // End:

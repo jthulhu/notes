@@ -1287,5 +1287,5 @@ $
 This concludes the proof of the main theorem.
 
 // Local Variables:
-// tp--master-file: "/home/adri/dev/notes/notes.typ"
+// tp--master-file: "./grothendieck-fibrations.typ"
 // End:
