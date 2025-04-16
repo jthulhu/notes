@@ -9,16 +9,23 @@ jobs:
         uses: actions/checkout@v4
 
       # Grothendieck Fibrations
-      - name: Build the notes
+      - name: Build the fibration notes
         uses: lvignoli/typst-action@main
         with:
           source_file: |
             grothendieck-fibrations.typ
-      - name: Build the slides
+      - name: Build the fibration slides
         uses: lvignoli/typst-action@main
         with:
           source_file: |
             grothendieck-fibrations-slides.typ
+
+      # LCCC
+      - name: Build the LCCC notes
+        uses: lvignoli/typst-action@main
+        with:
+          source_file: |
+            locally-cartesian-closed-categories.typ
 
       - name: Delete old release
         uses: mknejp/delete-release-assets@v1
