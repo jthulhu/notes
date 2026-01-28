@@ -27,6 +27,12 @@ jobs:
           source_file: |
             locally-cartesian-closed-categories.typ
 
+      # Natural Models of HoTT
+      - name: Build the notes on natural models of HoTT
+        uses: lvignoli/typst-action@main
+        with:
+          source_file: natural-models-of-homotopy-type-theory.typ
+
       - name: Delete old release
         uses: mknejp/delete-release-assets@v1
         with:
