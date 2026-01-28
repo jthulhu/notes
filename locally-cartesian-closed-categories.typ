@@ -1,31 +1,6 @@
-#import "@preview/ctheorems:1.1.3": *
-#import "@preview/fletcher:0.5.7" as fletcher: diagram, node, edge
-#import "@preview/cetz:0.3.4"
+#import "common.typ": *
 #import cetz.draw
-#set text(font: "New Computer Modern")
-#set document(title: [Notes on Fibrations], author: "Adrien Mathieu")
-#set heading(numbering: "1.")
-#show: thmrules.with(qed-symbol: $square$)
-
-#let definition = thmbox("all", "Definition", inset: (top: .5em))
-#let theorem = thmbox("all", "Theorem", inset: (top: .5em))
-#let lemma = thmbox("all", "Lemma", inset: (top: .5em))
-#let proof = thmproof("proof", "Proof")
-
-#v(20%)
-#align(center, text(25pt)[*Notes on LCCC*])
-#align(center, text(15pt)[Adrien #smallcaps([Mathieu])])
-#v(10%)
-#outline()
-#pagebreak()
-
-#set page(
-    footer: align(
-        center,
-        context counter(page).display("-- 1 --"),
-    ) ,
-)
-#counter(page).update(1)
+#show: all.with([Notes on LCCC], none)
 
 = Introduction
 
@@ -136,7 +111,7 @@ hence, $f^*(phi)$ is a morphism $f^*(h) arrow.long f^*(g)$.
 
 == Main theorem
 
-#definition([Locally Cartesian Closed Category])[
+#definition(title: [Locally Cartesian Closed Category])[
     A category $cal(C)$ is _locally cartesian closed_ if, for any object $X : cal(C)$, the
     category $cal(C) "/" X$ is cartesian closed.
 ]

@@ -1,31 +1,9 @@
-#import "@preview/ctheorems:1.1.3": *
-#import "@preview/fletcher:0.5.7" as fletcher: diagram, node, edge
-#set text(font: "New Computer Modern")
-#set document(title: [Notes on Fibrations], author: "Adrien Mathieu")
-#set heading(numbering: "1.")
-#show: thmrules.with(qed-symbol: $square$)
+#import "common.typ": *
+#show: all.with([Notes on Fibrations], none)
 
-#let definition = thmbox("definition", "Definition", inset: (top: .5em))
-#let theorem = thmbox("theorem", "Theorem", inset: (top: .5em))
-#let lemma = thmbox("lemma", "Lemma", inset: (top: .5em))
-#let proof = thmproof("proof", "Proof")
 #let Cat = [*Cat*]
 #let Fib(C) = $#[*Fib*]_(#C)$
 #let Pfct(C) = $#[*Pfct*]_(#C)$
-#v(20%)
-#align(center, text(25pt)[*Notes on Grothendieck Fibrations*])
-#align(center, text(15pt)[Adrien #smallcaps([Mathieu])])
-#v(10%)
-#outline()
-#pagebreak()
-
-#set page(
-    footer: align(
-        center,
-        context counter(page).display("-- 1 --"),
-    ) ,
-)
-#counter(page).update(1)
 
 = Introduction
 
@@ -33,7 +11,7 @@
 
 In this section, we have two categories $cal(B)$ and $cal(E)$, and a functor $p : cal(E) arrow
 cal(B)$.
-#definition("Refinement")[
+#definition(title: "Refinement")[
     Let $R : cal(E)$ and $X : cal(B)$.  We say that _$R$ refines $X$_, or $R subset.sq X$, if $ X = p(R) $
 ]
 
@@ -44,7 +22,7 @@ We note #diagram($R edge("-[]") & X$) to mean $R subset.sq X$, and we say that t
 $)]
 if $f = p(alpha)$.
 
-#definition("Cartesian morphism")[
+#definition(title: "Cartesian morphism")[
     Let $R, S : cal(E)$.  A morphism $alpha : S arrow R$ is _cartesian_ if, for any
     $S' : cal(E)$, $alpha' : S' arrow R$, and $f : p(S') arrow p(S)$ such that the following diagram
     commutes
@@ -60,7 +38,7 @@ if $f = p(alpha)$.
     $)]
 ]
 
-#definition("Fibration")[
+#definition(title: "Fibration")[
     $p$ is said to be a _fibration_ if, for any
     #align(center)[#diagram(spacing: 2cm, $
         & R edge("d", "-[]") \
@@ -73,7 +51,7 @@ if $f = p(alpha)$.
     $)]
 ]
 
-#definition([Category of fibrations])[
+#definition(title: [Category of fibrations])[
     For a base category $cal(B)$, define $Fib(cal(B))$ as the category of fibrations over
     $cal(B)$, that is, whose objects are pairs $(cal(E), p)$ with $cal(E)$ a category and
     $p : cal(E) arrow cal(B)$ a fibration.
@@ -88,7 +66,7 @@ if $f = p(alpha)$.
     and which preserves cartesianity of morphisms.
 ]
 
-#definition([Category of pseudofunctors])[
+#definition(title: [Category of pseudofunctors])[
     For a given base category $cal(B)$, define $Pfct(cal(B))$ as the category whose elements
     are contravariant pseudo-functors $cal(P) : cal(B)^(op) arrow Cat$ in $Cat$, that is,
     - #box(width: 100%)[for each object $X : cal(B)$, a category $cal(P)_X$;]
@@ -165,7 +143,7 @@ if $f = p(alpha)$.
 
 == Main theorem
 We aim at proving the
-#theorem([Main theorem])[
+#theorem(title: [Main theorem])[
     For a given base category $cal(B)$, we have $ Fib(cal(B)) tilde.equiv Pfct(cal(B)) $
 ]
 
@@ -289,7 +267,7 @@ $[id_X]_R$.  But so does the identity, so, by unicity, we have $ phi compose [id
 Hence $[id_X]_R$ is an iso.
 
 === Pseudo-composition law
-#lemma([Pseudo-composition law])[
+#lemma(title: [Pseudo-composition law])[
     Let $X, Y, Z : cal(B)$, and $f : X arrow Y$, $g : Y arrow Z$.  There is a natural isomorphism
     $ [f, g] : p^(-1)_(g compose f) arrow.double.long p^(-1)_f compose p^(-1)_g $
 ]
@@ -632,7 +610,7 @@ In this section, we will define a functor $Psi : Pfct(cal(B)) arrow Fib(cal(B))$
 
 Let $cal(P) : cal(B)^(op) arrow Cat$ be a pseudo-functor. Let's build a fibration over $B$ out of
 it.
-#definition([Total category])[
+#definition(title: [Total category])[
     The total category $integral cal(P)$ has
     - objects: pairs $(X, x)$ with $X : cal(B)^(op)$ and $x : cal(P)_X$;
     - morphisms between two objects $(A, a)$ and $(B, b)$: pairs $(f_1, f_2)$ with $f_1 : A arrow B$
@@ -653,7 +631,7 @@ it.
           $)]
 ]
 
-#lemma()[
+#lemma[
     Let $f$ be an isomorphism in $integral cal(P)$.  $f_1$ and $f_2$ are invertible.
 ]<iso-parts-iso>
 
@@ -714,7 +692,7 @@ it.
     $
 ]
 
-#definition([Forgetful fibration])[
+#definition(title: [Forgetful fibration])[
     We can now define the forgetful fibration $
         pi(cal(P)) &:& integral cal(P) &arrow.long cal(B) \
         & & (A, a) &mapsto.long A \
@@ -767,10 +745,10 @@ it.
     $
 ]
 
-#lemma()[
+#lemma[
     Let $(f_1, f_2)$ be a cartesian morphism in $integral cal(P)$.  $f_2$ is an isomorphism.
 ] <f2-iso>
-#proof()[
+#proof[
     Let $(f_1, f_2) : (A, a) arrow (B, b)$ be a cartesian morphism.  In the previous proof, we
     have established that $(f_1, id_(cal(P)_f_1 (b)))$ is cartesian.  Hence, there exists a
     unique isomorphism $(id_A, phi)$ making the following diagram commute
