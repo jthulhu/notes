@@ -23,9 +23,23 @@
 #let axiom = cosmos.fancy.theorem.with(breakable: true)
 #let corollary = cosmos.fancy.corollary.with(breakable: true)
 #let conjecture = cosmos.fancy.conjecture.with(breakable: true)
+#let (exercise-counter, exercise-box, exercise, show-exercise) = make-frame(
+    "exercise",
+    "Exercise",
+    inherited-levels: 1,
+    inherited-from: heading,
+    render: fancy-box.with(
+        get-body-color: get-secondary-body-color,
+        get-border-color: get-secondary-border-color,
+        get-symbol: get-secondary-symbol,
+    )
+)
+
+// #let exercise = _exercise.with(breakable: true)
 
 #let all(title, draft, bd) = {
-    show: show-theorem
+    show: show-theorion
+    show: show-exercise
     show raw.where(lang: "derivation") : it => {
         let kwc = rgb("#F0DFAF")
         let idc = rgb("#DFAF8F")
