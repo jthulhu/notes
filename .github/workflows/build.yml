@@ -33,6 +33,11 @@ jobs:
         with:
           source_file: natural-models-of-homotopy-type-theory.typ
 
+      - name: Build the notes on co/end calculus
+        uses: lvignoli/typst-action@main
+        with:
+          source_file: coend-calculus.typ
+
       - name: Delete old release
         uses: mknejp/delete-release-assets@v1
         with:
