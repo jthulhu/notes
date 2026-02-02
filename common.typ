@@ -35,7 +35,7 @@
     )
 )
 
-// #let exercise = _exercise.with(breakable: true)
+#let exercise = exercise.with(breakable: true)
 
 #let all(title, draft, bd) = {
     show: show-theorion
