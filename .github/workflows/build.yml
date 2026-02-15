@@ -33,10 +33,17 @@ jobs:
         with:
           source_file: natural-models-of-homotopy-type-theory.typ
 
+      # Co(end) Calculus
       - name: Build the notes on co/end calculus
         uses: lvignoli/typst-action@main
         with:
           source_file: coend-calculus.typ
+
+      # Representation of 2-groups
+      - name: Build the notes on representation of 2-groups
+        uses: lvignoli/typst-action@main
+        with:
+          source_file: representation-of-2-groups.typ
 
       - name: Delete old release
         uses: mknejp/delete-release-assets@v1
