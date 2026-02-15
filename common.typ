@@ -2,6 +2,8 @@
 #import "@preview/theorion:0.4.1" as theorion: *
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
 #import "@preview/cetz:0.4.2" as cetz: canvas
+#import "@preview/drafting:0.2.2": margin-note
+#import "@preview/xarrow:0.4.0": xarrow
 
 #import cosmos.fancy: *
 
