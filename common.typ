@@ -34,12 +34,24 @@
         get-symbol: get-secondary-symbol,
     )
 )
+#let (fact-counter, fact-box, fact, show-fact) = make-frame(
+    "fact",
+    ("en": "Fact", "fr": "Fait"),
+    inherited-levels: 1,
+    inherited-from: heading,
+    render: cosmos.fancy.fancy-box.with(
+        get-body-color: cosmos.fancy.get-tertiary-body-color,
+        get-border-color: cosmos.fancy.get-tertiary-border-color,
+        get-symbol: cosmos.fancy.get-tertiary-symbol,
+    )
+)
 
 #let exercise = exercise.with(breakable: true)
 
 #let all(title, draft, bd) = {
     show: show-theorion
     show: show-exercise
+    show: show-fact
     show raw.where(lang: "derivation") : it => {
         let kwc = rgb("#F0DFAF")
         let idc = rgb("#DFAF8F")
