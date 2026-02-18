@@ -110,3 +110,4 @@
 }
 
 #let Cat = [*Cat*]
+#let Set = [*Set*]
