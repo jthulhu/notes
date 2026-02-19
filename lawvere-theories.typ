@@ -31,14 +31,48 @@
     they are indeed finite products.
     - The terminal category $One$ is also the terminal cartesian category.  Indeed, for any cartesian
       category $cal(C)$, the unique functor $cal(C) -> One$ is cartesian.
-    - Let $cal(A)$ and $cal(B)$ be two cartesian categories.  It is clear that the projections $pi_A$
-      and $pi_B$ are cartesian.  Let now $cal(C)$ be a cartesian category, and $F : cal(C) -> cal(A)$,
-      $G : cal(C) -> cal(B)$ be cartesian functors.  Then $chevron F, G chevron.r$ is clearly cartesian.
+    - Let $cal(A)$ and $cal(B)$ be two cartesian categories.  Let's show that $cal(A) times cal(B)$ is
+      cartesian.  Consider $A_1, A_2 : cal(A)$ and $B_1, B_2 : cal(B)$ be objects,  again, thanks to
+      the adjunction, we need to check that 
+      #align(center, diagram(spacing: 2cm, $
+          (A_1, B_1) & (A_1 times A_2, B_1 times B_2) edge("l", (pi_1, pi_1), ->) edge("r", (pi_2, pi_2), ->)
+              & (A_2, B_2)
+      $))
+      is a cartesian product of $(A_1, B_1)$ with $(A_2, B_2)$.  Consider $A' : cal(A)$ and $B' : cal(B)$
+      be two objects, and $(f_i, g_i) : (A', B') -> (A_i, B_i)$ for $i : {1, 2}$ be two morphisms.
+      Consider the set of morphisms $(chevron f_1, f_2 chevron.r, chevron g_1, g_2 chevron.r)$
+      making the following diagram commute
+      #align(center, 
+          diagram(spacing: (2cm, 3cm), $
+              (A_1, B_1) 
+                  & (A_1 times A_2, B_1 times B_2) edge("l", (pi_1, pi_1), ->) edge("r", (pi_2, pi_2), ->)
+                  & (A_2, B_2) \
+                  & (A', B') edge("ul", (f_1, g_1), ->, label-side: #left)
+                  edge("u", (chevron f_1, f_2 chevron.r, chevron g_1, g_2 chevron.r), ->, label-pos: #80%)
+                  edge("ur", (f_2, g_2), ->, label-side: #right)
+          $),
+      );
+      This is exactly the same as a pair of morphisms $chevron f_1, f_2 chevron.r$ and $chevron g_1,
+      g_2 chevron.r$ making the two following diagrams commute
+      #grid(columns: (1fr, 1fr), align: center + horizon,
+          diagram(spacing: 2cm, $
+              A_1 & A_1 times A_2 edge("l", pi_1, ->) edge("r", pi_2, ->) & A_2 \
+                  & A' edge("ul", f_1, ->, label-side: #left) edge("u", chevron f_1\, f_2 chevron.r, ->, label-pos: #70%) edge("ur", f_2, ->, label-side: #right)
+          $),
+          diagram(spacing: 2cm, $
+              B_1 & B_1 times B_2 edge("l", pi_1, ->) edge("r", pi_2, ->) & B_2 \
+                  & B' edge("ul", g_1, ->, label-side: #left) edge("u", chevron g_1\, g_2 chevron.r, ->, label-pos: #70%) edge("ur", g_2, ->, label-side: #right)
+          $)
+      );
+      both of which exist uniquely.
+      
+      Besides, we have exhibited a particular choice of product that immediately shows us that $pi_cal(A)
+      : cal(A) times cal(B) -> cal(A)$ and $pi_cal(B) : cal(A) times cal(B) -> cal(B)$ are cartesian.
+
     We now just have to check that $CCat$ is closed.
     
     Consider $cal(A)$ and $cal(B)$ be two cartesian categories, let's consider $cal(B)^cal(A)$ be the
-    category of cartesian functors from $cal(A)$ to $cal(B)$, with morphisms natural transformations 
-    $alpha$ such that, for every objects $X, Y : cal(A)$, $alpha_(X times Y)$ is the canonical isomorphism.
+    category of cartesian functors from $cal(A)$ to $cal(B)$, with morphisms natural transformations.
     This category is cartesian: indeed, for two functors $F, G : cal(A) -> cal(B)$, one can form $
         F times G &:& cal(A) &--> cal(B) \
             && X &mapsto.long F(X) times G(X) \
@@ -62,11 +96,29 @@
     
     Let's fix $cal(A) : CCat$ a cartesian category, and let's show that $- times cal(A) tack.l -^cal(A)$. 
     Let $cal(B), cal(C) : CCat$, and consider a cartesian functor $F : cal(B) times cal(A) -> cal(C)$.
-    TODO
+    Consider $
+        phi(F) &:& cal(B) &--> cal(C)^cal(A) \
+            && B &mapsto.long F(B, -) \
+            && f &mapsto.long F(f, -)
+    $
+    It is well-defined.  Let's show that this is a natural in $cal(B)$ and $cal(C)$.  Consider $F : cal(B) -> 
+    cal(B)'$ and $G : cal(C) -> cal(C)'$ be two functors.  We have to check that the following diagram 
+    commutes
+    #align(center, diagram(spacing: 2cm, $
+        CCat(cal(B)' times cal(A), cal(C)) edge("r", phi_(cal(B)', cal(C)), ->) edge("d", CCat(F times cal(A), G), ->)
+            & CCat(cal(B)', cal(C)^cal(A)) edge("d", CCat(F, G^cal(A)), ->, label-side: #left) \
+            CCat(cal(B) times cal(A), cal(C)') edge("r", phi_(cal(B), cal(C)'), ->)
+            & CCat(cal(B), cal(C)'^cal(A))
+    $))
+    Let $H : cal(B)' times cal(A) -> cal(C)'$ be a cartesian functor.  For $B : cal(B)$,
+    we have $
+        CCat(F, G^cal(A))(phi_(cal(B)',cal(C))(H))(B) &= G compose (phi_(cal(B)', cal(C))(H)(F(B))) \
+            &= G compose H(F(B), -) \
+            &= G(H(F(B), -)) \
+            &= phi_(cal(B), cal(C)')(CCat(F times cal(A), G)(H))(B)
+    $
+    and same for morphisms.  Furthermore, it is clear that $phi_(cal(B), cal(C))$ is an isomorphism.
 ]
-
-This theorem might sound also tautological, and is indeed quite simple to prove, but it has a very
-important consequence.
 
 = Multi-sorted algebraic theories
 
@@ -117,10 +169,41 @@ important consequence.
     $
 ]
 
+#definition(title: [Morphism of Lawvere theory])[
+    Given two Lawvere theories $cal(T)$ and $cal(T)'$, a _morphism of Lawvere theories $cal(T) -> cal(T)'$_
+    is a cartesian functor $F : cal(T) -> cal(T)'$.
+]
+
+#proposition[
+    Given two Lawvere theories $cal(T)$ and $cal(T)'$, and a morphism $F : cal(T) -> cal(T)'$.  Let $cal(C)$
+    be a cartesian category.  There exists a cartesian functor $Mod_F (cal(C)) : Mod_cal(T)'(cal(C)) -> 
+    Mod_cal(T)(cal(C))$.
+]
+#proof[
+    Let $M : cal(T)' -> cal(C)$, we have $M compose F : cal(T) -> cal(C)$.  Furthermore, given a natural
+    transformation $alpha : M_1 -> M_2$, we have $
+        alpha * F : M_1 compose F -> M_2 compose F
+    $
+    which is functorial: $id_M * F = id_(M compose F)$ and $(alpha compose beta) * F = (alpha * F) compose
+    (beta * F)$.
+    
+    Let $M_1, M_2 : cal(T) -> cal(C)$ be two models.  $(M_1 times M_2) compose F = (M_1 compose F) times 
+    (M_2 compose F)$ by definition, since limits are computed pointwise.  Similarly, $pi_i * F = pi_i : (M_1 
+    compose F) times (M_2 compose F) -> M_i compose F$.
+]
+
+#proposition[
+    $Mod_-(cal(C)) : CCat^op -> CCat$ est un foncteur contravariant continu.
+]
+#proof[
+    C'est exactement le foncteur $CCat(-, cal(C))$, c'est donc bien un foncteur contravariant, et il est
+    bien continu.
+]
+
 #example[
     Consider an algebraic theory $T$.  We can build its Lawvere theory $cal(T)$ as follows:
     objects of $cal(T)$ are words of $S$, noted $s_1 times dots.c times s_n$.  A morphism from a
-    $times_(i = 1)^n s_i -> times_(i = 1)^m s'_i$ is a tuple $(t_1, ..., t_m)$ where each $t_i$ is a
+    $product_(i = 1)^n s_i -> product_(i = 1)^m s'_i$ is a tuple $(t_1, ..., t_m)$ where each $t_i$ is a
     term in the context $Gamma := x_1 : s_1, ..., x_n : s_n$ on the language $cal(L)$, quotiented by the
     equivalence relation $t_i ~ t'_i$ if $T tack t_i = t'_i$.
     
