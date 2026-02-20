@@ -45,11 +45,11 @@ jobs:
         with:
           source_file: representation-of-2-groups.typ
 
-      # Lawvere theories
-      - name: Build the notes on Lawvere theories
+      # Categorical semantics of logic
+      - name: Build the notes on categorical semantics of logic
         uses: lvignoli/typst-action@main
         with:
-          source_file: lawvere-theories.typ
+          source_file: categorical-semantics-of-logic.typ
 
       - name: Delete old release
         uses: mknejp/delete-release-assets@v1
