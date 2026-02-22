@@ -2,155 +2,163 @@
 
 #let CCat = [*CCat*]
 #let One = [*1*]
+#let Two = [*2*]
 #let dom = [dom]
 #let cod = [cod]
 #let Mod = [*Mod*]
 
-#show: all.with([Notes on Lawvere Theories], none)
+#show: all.with([Notes on categorical semantics of logic], none)
+#show heading.where(level: 1): it => { pagebreak(weak: true); it }
 
-= Cartesian categories
-#definition(title: [Cartesian category])[
-    A category $cal(C)$ is said to be _cartesian_ if it has all finite products.
+= Categorical theories and their semantics
+For this section, consider $cal(F)$ a class of (small) categories.
+== $cal(F)$-complete categories
+
+#definition(title: [$cal(F)$-complete category])[
+    A $cal(F)$-complete category is a category that has all limits of all shapes $cal(S) : cal(F)$.
 ]
-#definition(title: [Cartesian functor])[
-    Given two cartesian categories $cal(C)$ and $cal(D)$, a functor $F : cal(C) -> cal(D)$ is said
-    to be _cartesian_ if, for every object $A, B : cal(C)$, the image of the diagram
-    #align(center, diagram(spacing: 2cm, $
-        A & edge("l", pi_A, ->) A times B edge("r", pi_B, ->) & B
-    $))
-    by $F$ is a cartesian product of $F(A)$ and $F(B)$.
+
+Let us note $cal(F)Cat$ the category of $cal(F)$-complete categories with morphisms $cal(S)$-continuous
+functors for every $cal(S) : cal(F)$.
+
+#example[
+    The category of cartesian categories $CCat$ is a category of $cal(F)$-complete categories for $
+        cal(F) := {One, 2}
+    $
+    where $2$ is the discrete category with two elements.
 ]
+
+#example[
+    The category of (finitely) complete categories is a category of $cal(F)$-complete category, by
+    taking $cal(F)$ to be the class of all (finite) categories.
+]
+
+#remark[
+    Multiple different $cal(F)$ can lead to the same category $cal(F)Cat$.  For instance, equalizers
+    and finite products are enough to have all finite limits; similarly, having pullbacks and a terminal
+    object is enough to have all finite limits.
+]
+
+The cornerstone of the theory of $cal(F)$-complete categories is stated as follows.
 
 #theorem[
-    The category $CCat$ of cartesian categories, with cartesian functors as morphisms, is cartesian 
-    closed.
-] <thm:ccat-ccc>
+    $cal(F)Cat$ is cartesian closed.
+]
 #proof[
-    First, let's show that it is cartesian.  Because the forgetful functor $CCat -> Cat$ has a left
-    adjoint, we know what the finite products must look like, if they exist.  Let's just check that
-    they are indeed finite products.
-    - The terminal category $One$ is also the terminal cartesian category.  Indeed, for any cartesian
-      category $cal(C)$, the unique functor $cal(C) -> One$ is cartesian.
-    - Let $cal(A)$ and $cal(B)$ be two cartesian categories.  Let's show that $cal(A) times cal(B)$ is
-      cartesian.  Consider $A_1, A_2 : cal(A)$ and $B_1, B_2 : cal(B)$ be objects,  again, thanks to
-      the adjunction, we need to check that 
-      #align(center, diagram(spacing: 2cm, $
-          (A_1, B_1) & (A_1 times A_2, B_1 times B_2) edge("l", (pi_1, pi_1), ->) edge("r", (pi_2, pi_2), ->)
-              & (A_2, B_2)
-      $))
-      is a cartesian product of $(A_1, B_1)$ with $(A_2, B_2)$.  Consider $A' : cal(A)$ and $B' : cal(B)$
-      be two objects, and $(f_i, g_i) : (A', B') -> (A_i, B_i)$ for $i : {1, 2}$ be two morphisms.
-      Consider the set of morphisms $(chevron f_1, f_2 chevron.r, chevron g_1, g_2 chevron.r)$
-      making the following diagram commute
-      #align(center, 
-          diagram(spacing: (2cm, 3cm), $
-              (A_1, B_1) 
-                  & (A_1 times A_2, B_1 times B_2) edge("l", (pi_1, pi_1), ->) edge("r", (pi_2, pi_2), ->)
-                  & (A_2, B_2) \
-                  & (A', B') edge("ul", (f_1, g_1), ->, label-side: #left)
-                  edge("u", (chevron f_1, f_2 chevron.r, chevron g_1, g_2 chevron.r), ->, label-pos: #80%)
-                  edge("ur", (f_2, g_2), ->, label-side: #right)
-          $),
-      );
-      This is exactly the same as a pair of morphisms $chevron f_1, f_2 chevron.r$ and $chevron g_1,
-      g_2 chevron.r$ making the two following diagrams commute
-      #grid(columns: (1fr, 1fr), align: center + horizon,
-          diagram(spacing: 2cm, $
-              A_1 & A_1 times A_2 edge("l", pi_1, ->) edge("r", pi_2, ->) & A_2 \
-                  & A' edge("ul", f_1, ->, label-side: #left) edge("u", chevron f_1\, f_2 chevron.r, ->, label-pos: #70%) edge("ur", f_2, ->, label-side: #right)
-          $),
-          diagram(spacing: 2cm, $
-              B_1 & B_1 times B_2 edge("l", pi_1, ->) edge("r", pi_2, ->) & B_2 \
-                  & B' edge("ul", g_1, ->, label-side: #left) edge("u", chevron g_1\, g_2 chevron.r, ->, label-pos: #70%) edge("ur", g_2, ->, label-side: #right)
-          $)
-      );
-      both of which exist uniquely.
-      
-      Besides, we have exhibited a particular choice of product that immediately shows us that $pi_cal(A)
-      : cal(A) times cal(B) -> cal(A)$ and $pi_cal(B) : cal(A) times cal(B) -> cal(B)$ are cartesian.
+    First of all, $cal(F)Cat$ has a terminal object: $One$.  Indeed, $One$ is complete.  Furthermore,
+    every functor $cal(C) xarrow(!) One$ is complete.  Let us now consider $cal(C), cal(D) : cal(F)Cat$
+    two categories, and let us show that $cal(C) times cal(D)$ is in $cal(F)Cat$.  Let $cal(S) : cal(F)$
+    be a shape, and $F : cal(S) -> cal(C) times cal(D)$ a functor.  We can write $F = chevron F_1, F_2 
+    chevron.r$.  Let us show that $(lim F_1, lim F_2)$ is a limit of $F$.  This stems from the following
+    (natural) identities, for $(X, Y) : cal(C) times cal(D)$: $
+        (cal(C) times cal(D))((X, Y), (lim F_1, lim F_2)) &= cal(C)(X, lim F_1) times cal(D)(Y, lim F_2) \
+            &tilde.equiv (X => F_1) times (Y => F_2) \
+            &tilde.equiv (X, Y) => F_1 times F_2
+    $
+    By the particular choice of limits in $cal(C) times cal(D)$ that we have exhibited, we can immediately
+    deduce that $pi_cal(C) : cal(C) times cal(D) -> cal(C)$ and $pi_cal(D) : cal(C) times cal(D) -> cal(D)$
+    are continuous for shapes in $cal(F)$.  It is immediate that $cal(C) times cal(D)$ is a cartesian
+    product of $cal(C)$ with $cal(D)$.
+    
+    Let us finally check that $cal(F)Cat$ is closed.  Consider $cal(C)$ and $cal(D)$ be two categories
+    in $cal(F)Cat$, define $cal(D)^cal(C)$ be the category of $cal(F)$-continuous functors, with natural
+    transformations as morphisms.  Since limits of shapes in $cal(F)$ exist in $cal(D)$, they exist in
+    $cal(D)^cal(C)$.  Since limits are computed pointwise, the same proof that show that $Cat$ is closed
+    works to show that $cal(D)^cal(C)$ is an internal hom.
+]
 
-    We now just have to check that $CCat$ is closed.
-    
-    Consider $cal(A)$ and $cal(B)$ be two cartesian categories, let's consider $cal(B)^cal(A)$ be the
-    category of cartesian functors from $cal(A)$ to $cal(B)$, with morphisms natural transformations.
-    This category is cartesian: indeed, for two functors $F, G : cal(A) -> cal(B)$, one can form $
-        F times G &:& cal(A) &--> cal(B) \
-            && X &mapsto.long F(X) times G(X) \
-            && f &mapsto.long F(f) times G(f)
+== $cal(F)$ theory
+#definition(title: [$cal(F)$ theory])[
+    A $cal(F)$ theory $cal(T)$ is an $cal(F)$-complete category.
+]
+
+A morphism of $cal(F)$ theory is simply a morphism of $cal(F)$-complete category.  In fact, there is
+no technical distinction between the category of $cal(F)$ theories and $cal(F)Cat$.  However, in what
+follows, we want to see those categories as _theories_, in the sense that they admit a (meta) theory of
+models.
+
+== Model of a $cal(F)$ theory
+Let $cal(U) : cal(F)Cat$ be a category, called in this context a _universe_, and $cal(T)$ be a $cal(F)$
+theory. 
+
+#definition(title: [Model of a theory])[
+    A _model M of $cal(T)$ in $cal(U)$_ is a morphism $cal(T) -> cal(U)$, that is, a functor that
+    is continuous with respect to all limits of shapes in $cal(F)$.
+]
+
+#definition(title: [Morphism of models])[
+    Given $M$ and $M'$ be two models of $cal(T)$, a _morphism from $M$ to $M'$_ is a natural 
+    transformation $M => M'$.
+]
+
+#definition(title: [Category of models])[
+    For a given theory $cal(T)$, we define its category of models (in $cal(U)$) $
+        Mod_cal(T)(cal(U)) := cal(F)Cat(cal(T), cal(U))
     $
-    which is clearly a functor, because $F times G = (- times -) compose (F, G) compose Delta_cal(A)$ where 
-    $Delta$ is the diagonal in the cartesian category $CCat$.  Furthermore, it is cartesian: indeed, $
-        (F times G)(X times Y) &= F(X times Y) times G(X times Y) \
-            &tilde.equiv (F(X) times F(Y)) times (G(X) times G(Y)) \
-            &tilde.equiv (F(X) times G(X)) times (F(Y) times G(Y)) \
-            &= (F times G)(X) times (F times G)(Y)
-    $
-    where each isomorphism is a canonical isomorphism between finite products.
-    
-    If we have a cartesian functor $F : cal(B) -> cal(C)$, we can define $
-        F^cal(A) &:& cal(B)^cal(A) &--> cal(C)^cal(A) \
-            && G &mapsto.long F compose G \
-            && alpha &mapsto.long F * alpha
-    $
-    which is clearly functorial.  It is also immediate that this functor is cartesian.
-    
-    Let's fix $cal(A) : CCat$ a cartesian category, and let's show that $- times cal(A) tack.l -^cal(A)$. 
-    Let $cal(B), cal(C) : CCat$, and consider a cartesian functor $F : cal(B) times cal(A) -> cal(C)$.
-    Consider $
-        phi(F) &:& cal(B) &--> cal(C)^cal(A) \
-            && B &mapsto.long F(B, -) \
-            && f &mapsto.long F(f, -)
-    $
-    It is well-defined.  Let's show that this is a natural in $cal(B)$ and $cal(C)$.  Consider $F : cal(B) -> 
-    cal(B)'$ and $G : cal(C) -> cal(C)'$ be two functors.  We have to check that the following diagram 
-    commutes
+]
+
+#remark[
+    We are often primarily interested in models in $Set$ (which belongs to every $cal(F)$Cat).  
+    However, being able to change the category in which we interpret are theory will be an
+    other important tool to make compute describe theories later on.
+]
+
+== Monad on an $cal(F)$ theory
+For this section, fix $cal(T)$ a $cal(F)$ theory, and $cal(U)$ be a universe, which has all limits
+shaped by $cal(T)$.
+
+#definition(title: [Free algebra monad])[
+    Let us note $F_cal(T) : cal(U) -> cal(U)$ the monad on $cal(U)$ derived from the following
+    adjunction
     #align(center, diagram(spacing: 2cm, $
-        CCat(cal(B)' times cal(A), cal(C)) edge("r", phi_(cal(B)', cal(C)), ->) edge("d", CCat(F times cal(A), G), ->)
-            & CCat(cal(B)', cal(C)^cal(A)) edge("d", CCat(F, G^cal(A)), ->, label-side: #left) \
-            CCat(cal(B) times cal(A), cal(C)') edge("r", phi_(cal(B), cal(C)'), ->)
-            & CCat(cal(B), cal(C)'^cal(A))
-    $))
-    Let $H : cal(B)' times cal(A) -> cal(C)'$ be a cartesian functor.  For $B : cal(B)$,
-    we have $
-        CCat(F, G^cal(A))(phi_(cal(B)',cal(C))(H))(B) &= G compose (phi_(cal(B)', cal(C))(H)(F(B))) \
-            &= G compose H(F(B), -) \
-            &= G(H(F(B), -)) \
-            &= phi_(cal(B), cal(C)')(CCat(F times cal(A), G)(H))(B)
+        cal(U) edge("r", Delta, ->, shift: #8pt) & Mod_cal(T)(cal(U)) edge("l", lim, ->, shift: #8pt, label-side: #left)
+    $,
+        node((.4, 0), $bot$),
+    ))
+    which we call the _free algebra monad over $cal(U)$_.
+]
+
+#remark[
+    If $cal(U)$ is complete, then in particular it has all limits of shape $cal(T)$, so we can always
+    build the free algebra monad over it.
+]
+#example[
+    $Set$ is complete.  Therefore, every theory induces a free algebra monad over the universe $Set$.
+    We will see how to recover usual monads on $Set$ with this construction.
+]
+
+#proposition[
+    The adjunction $Delta tack.l lim$ is monadic.
+]
+#proof[
+    Consider the category $cal(U)^(F_cal(T))$ of algebras of the monad $F_cal(T)$.  There is a functor $
+        G : Mod_cal(T)(cal(U)) --> cal(U)^(F_cal(T))
     $
-    and same for morphisms.  Furthermore, it is clear that $phi_(cal(B), cal(C))$ is an isomorphism.
+    given by, for any element $M : Mod_cal(T)(cal(U))$, $
+        (lim M, lim epsilon_M)
+    $
+    #margin-note[Finish this proof.]
 ]
 
-= Multi-sorted algebraic theories
-
-#definition(title: [Algebraic theory])[
-    A _multi-sorted algebraic theory_ is the data of $T = (S, cal(L), dom, cod, A)$, that is, a collection of
-    sorts $S$, a language $cal(L)$ composed, for every $n : NN$, of a collection of _symbols of arity $n$ 
-    $cal(L)_n$_, with a map $dom_n : cal(L)_n times {1, ..., n} -> S$ and a map $cod_n : cal(L)_n -> S$ giving
-    the _signature_ of $cal(L)$, and a set of axioms $A$ that is composed of propositions of the form $u = v$,
-    where $u$ and $v$ are open terms.
+#corollary[
+    The category of algebras of the free algebra monad $F_cal(T)$ is isomorphic to the category of models
+    of $cal(T)$.
 ]
 
-#definition(title: [Model of an algebraic theory])[
-    A _model $M$_ of an algebraic theory $T$ is the data of a family of sets $M_s$ for $s : S$, and
-    for each $n : NN$, and for each $f : cal(L)_n$, a function $f^M : product_(i = 1)^n M_(dom(f, i)) -> M_cod(f)$
-    such that, for each axiom $P : A$, $[|P|]_M$, the interpretation of $P$ in $M$, holds.
-]
+= Algebraic theories
+For this section, we will consider categories with finite products, that is, $cal(F) = {0, 2}$.
 
-#definition(title: [Morphism of model])[
-    Given $T$ an algebraic theory, and $M, M'$ models of $T$, we define a _morphism between $phi$ between $M$
-    and $M'$_ as the data of, for each $s : S$, a map $phi_s : M_s -> M'_s$ such that, for every $n : NN$,
-    and every constant $f : cal(L)_n$, the following diagram commutes
-    #align(center, diagram(spacing: 2cm, $
-        product_(i = 1)^n M_dom(f, i) edge("d", f^M, ->) edge("r", product_(i = 1)^n phi_dom(f, i), ->)
-            & product_(i = 1)^n M'_s edge("d", f^M', ->) \
-            M_cod(f) edge("r", phi_cod(f), ->) & M'_cod(f)
-    $))
+#definition(title: [Multi-sorted Lawvere theory])[
+    A $cal(F)$ theory $cal(T)$ is called a _multi-sorted Lawvere theory_.
 ]
-
 #definition(title: [Category of models of $T$])[
     Given an algebraic theory $T$, its models, equiped with morphisms of models, form a category $Mod_T$
     of models of $T$.
 ]
+
+#pagebreak(weak: true)
+= Horn theories
+
 
 = Lawvere Theories
 #definition(title: [Lawvere theory])[
@@ -220,13 +228,6 @@
     $
 ]
 #proof[
-    By @thm:ccat-ccc, we have the following series of (natural) isomorphisms $
-        Mod_cal(T)_1(Mod_cal(T)_2(cal(C))) &= [cal(T)_1, [cal(T)_2, cal(C)]] \
-            &tilde.equiv [cal(T)_1 times cal(T)_2, cal(C)] \
-            &tilde.equiv [cal(T)_2 times cal(T)_1, cal(C)] \
-            &tilde.equiv [cal(T)_2, [cal(T)_1, cal(C)]] \
-            &= Mod_cal(T)_2 (Mod_cal(T)_1(cal(C)))
-    $
 ]
 
 #theorem[
@@ -239,5 +240,5 @@
 ]
 
 // Local Variables:
-// typst-preview--master-file: "./lawvere-theories.typ"
+// typst-preview--master-file: "./categorical-semantics-of-logic.typ"
 // End:
