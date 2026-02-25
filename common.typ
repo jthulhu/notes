@@ -77,7 +77,7 @@
     align(center, text(15pt, [Adrien #smallcaps[Mathieu]]))
     v(2fr)
     outline(
-        target: heading.where(supplement: [Section]),
+        target: heading.where(supplement: [Chapter]).or(heading.where(supplement: [Section])),
         depth: 2,
     )
     v(2fr)
