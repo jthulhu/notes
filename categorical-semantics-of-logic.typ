@@ -6,17 +6,73 @@
 #let dom = [dom]
 #let cod = [cod]
 #let Mod = [*Mod*]
+#let Shp = [*Shp*]
+#let Vect = [*Vect*]
+#let colim = $limits("colim")$
 
 #show: all.with([Notes on categorical semantics of logic], none)
-#show heading.where(level: 1): it => { pagebreak(weak: true); it }
+#set heading(supplement: [Chapter])
 
-= Categorical theories and their semantics
-For this section, consider $cal(F)$ a class of (small) categories.
-== $cal(F)$-complete categories
+#heading(numbering: none, outlined: false)[Introduction]
+
+The idea that motivates the current note is that every class of theories can be expressed as a category
+of sufficiently structure rich categories.  For instance, when a category has a terminal object $1$, one
+can see objects of this category as collection of their elements, where an _element of an object $A$_ is
+simply a morphism $1 -> A$.  This suggests that, to be able to speak categorically of theories that exhibit
+constants, one just needs the "ambient category" to have a terminal object.
+
+Taking this idea further, one can see classes of categories having sufficiently rich structure as those
+categories that can be taken as "ambient" categories in which to develop a given theory.  We will begin
+by investigating categories in which one can take limits of a given shape.  Each class of shapes will
+produce a class of theories one can speak of, but, most importantly, the categorical structure of the
+class of shapes, $Shp$, will give us a way to _mix_ theories of different kind.
+
+For instance, one can see categories as "higher sets", that is, a (large) set equiped with morphisms.
+This suggests that in order to get a "higher" version of a theory that usually takes place in sets,
+one can perform the theory with categories rather than sets.  For instance, given a field $KK$, one
+can consider vector spaces over $KK$, but also vector spaces over $KK$ internal to $Cat$.  However,
+we can also recover the same models by considering models of a _product theory_ (the product of then
+theory of vector spaces, and the theory of categories).  One therefore derives $2"-"Vect_KK := Vect_KK 
+times Cat$, the theory of 2-vector spaces.  The main interest here of doing so is that one recovers the
+ability to interpret this theory in different categories.
+
+#show heading.where(level: 1): it => { 
+    pagebreak(weak: true);
+    [Chapter ]
+    context counter(heading).display(it.numbering)
+    [ ]
+    it.body
+    parbreak()
+}
+
+= Shape calculus
+For this section, consider $cal(F)$ a class of (small) categories.  Elements of $cal(F)$ are called
+_shapes_.
 
 #definition(title: [$cal(F)$-complete category])[
     A $cal(F)$-complete category is a category that has all limits of all shapes $cal(S) : cal(F)$.
 ]
+
+// $
+//     cal(C)(X, lim (lim_{*_2 quad *_3} F) times (lim_{*_2 quad *_3} F) xarrow(F(*_2 -> *_1) compose pi_1, sym: arrows)_(F(*_3 -> *_1) compose pi_2) F(*_1)) &tilde.equiv \
+//     cal(C)(X, lim_{*_2 -> *_1 <- *_3} F) &tilde.equiv cal(C)^{*_2 -> *_1 <- *_3}(X, F) \
+//         &tilde.equiv cal(C)(X, lim_{*_5 arrows *_4} cases(*_5 &mapsto.long \_, *_4 &mapsto.long lim_{*_2 quad *_3} F))
+// $
+
+== Category of shapes
+
+At first, we will consider a fixed $cal(F)$, and develop the theory around it.  For instance, we will
+see how to compute the product of two $cal(F)$ theories.  However, this doesn't inform us on how to
+do the product of an $cal(F)$ theory with a $cal(F)'$ theory: for instance, the theory of higher
+vector spaces will be built as a product of the theory of vector spaces with the theory of higher
+categories.
+
+#definition(title: [Category of shapes])[
+    Let $Shp$ be the preorder category whose objects are collection of categories, and there is a morphism
+    from $cal(F)$ to $cal(F)'$ if every $cal(F)'$-complete category $cal(C)$ is also $cal(F)$-complete.
+]
+
+== $cal(F)$-complete categories
 
 Let us note $cal(F)Cat$ the category of $cal(F)$-complete categories with morphisms $cal(S)$-continuous
 functors for every $cal(S) : cal(F)$.
@@ -65,6 +121,51 @@ The cornerstone of the theory of $cal(F)$-complete categories is stated as follo
     transformations as morphisms.  Since limits of shapes in $cal(F)$ exist in $cal(D)$, they exist in
     $cal(D)^cal(C)$.  Since limits are computed pointwise, the same proof that show that $Cat$ is closed
     works to show that $cal(D)^cal(C)$ is an internal hom.
+]
+
+#definition(title: [Shape functor])[
+    There is a functor $
+        -Cat &:& Shp^op &--> Cat \
+            &&cal(F) &mapsto.long cal(F)Cat \
+            &&cal(F) <= cal(F)' &mapsto.long cal(F)'Cat subset.eq cal(F)Cat
+    $
+]
+
+#theorem[
+    Let $cal(F) <= cal(F)'$, the functor $(cal(F) <= cal(F)')Cat : cal(F)'Cat -> cal(F)Cat$ has a left
+    adjoint.  Let us call this left adjoint $F^cal(F)'_cal(F) : cal(F)Cat -> cal(F)'Cat$.
+]
+#proof[
+    Let $cal(C)$ be a $cal(F)$-complete category.  Let us first show that we can freely add all limits
+    of shape $cal(F)'$ in $cal(C)$.  Define $cal(hat(F))'$ be the greatest class of shapes equivalent to
+    $cal(F)'$, that is, $
+        cal(hat(F))' := union.big { cal(tilde(F)) : Shp | cal(tilde(F)) <= cal(F)' and cal(F)' <= cal(tilde(F)) }
+    $  Consider the category $cal(C)_cal(F)'$, where objects are of the
+    form $F : cal(S) -> cal(C)$ where $cal(S) : cal(hat(F))'$.  Intuitively, such a diagram represents its
+    added limit in $cal(C)$.  Hence, we must have, for $F : cal(S) -> cal(C)$ and $G : cal(S)' -> cal(C)$, $
+        cal(C)_cal(F)'(F, G) &:= colim_(s : cal(S)) lim_(s' : cal(S)') cal(C)(F(s), G(s')) \
+            &= lim_(s : S^op) lim_(s' : S') cal(C)(F^op (s), G(s'))
+    $
+    This is a category.  Indeed, for $F : cal(S) -> cal(C)$, we have an identity given by the following
+    series of equations $
+        Set({*}, cal(C)_cal(F)' (F, F)) &= Set({*}, lim_(s : S^op) lim_(s' : S') cal(C)(F^op (s), G(s'))) \
+            &tilde.equiv Set^(S^op) ({*}, lim_(s' : cal(S)') cal(C)(F^op (-), F(s'))) \
+            &tilde.equiv (Set^(S^op))^S ({*}, cal(C)(F^(op)(-), F(=))) \
+            &tilde.equiv Set^(S^op times S) ({*}, cal(C)(F^(op)(-), F(=)))
+    $
+    so, for $s : cal(S)^op$, and $s' : cal(S)$, we have to find an element of $
+        cal(C)(F^op (s), F(s'))
+    $
+]
+
+#proposition[
+    For $cal(F) <= cal(F') <= cal(F)''$, we have $
+        F_cal(F)''^cal(F) tilde.equiv F_cal(F)'^cal(F) compose F_cal(F)''^cal(F)'
+    $
+]
+#proof[
+    TODO
+    this stems by uniqueness of left adjoints.
 ]
 
 == $cal(F)$ theory
@@ -145,7 +246,8 @@ shaped by $cal(T)$.
     of $cal(T)$.
 ]
 
-= Algebraic theories
+= Quantifier-free first order logic
+== Algebraic theories
 For this section, we will consider categories with finite products, that is, $cal(F) = {0, 2}$.
 
 #definition(title: [Multi-sorted Lawvere theory])[
@@ -156,10 +258,11 @@ For this section, we will consider categories with finite products, that is, $ca
     of models of $T$.
 ]
 
-#pagebreak(weak: true)
-= Horn theories
+== Horn theories
 
+== Essentially algebraic theories
 
+= Higher order logic
 = Lawvere Theories
 #definition(title: [Lawvere theory])[
     A _(generalized) Lawvere theory_ is a cartesian category.
