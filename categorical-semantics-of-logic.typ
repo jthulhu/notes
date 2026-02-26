@@ -8,7 +8,7 @@
 #let Mod = [*Mod*]
 #let Shp = [*Shp*]
 #let Vect = [*Vect*]
-#let colim = $limits("colim")$
+#let colim = math.op([colim], limits: true)
 
 #show: all.with([Notes on categorical semantics of logic], none)
 #set heading(supplement: [Chapter])
@@ -38,9 +38,12 @@ ability to interpret this theory in different categories.
 
 #show heading.where(level: 1): it => { 
     pagebreak(weak: true);
-    [Chapter ]
-    context counter(heading).display(it.numbering)
+    it.supplement
     [ ]
+    if it.numbering != none {
+        context counter(heading).display(it.numbering)
+        [ ]
+    }
     it.body
     parbreak()
 }
@@ -136,6 +139,7 @@ The cornerstone of the theory of $cal(F)$-complete categories is stated as follo
     adjoint.  Let us call this left adjoint $F^cal(F)'_cal(F) : cal(F)Cat -> cal(F)'Cat$.
 ]
 #proof[
+    See @beurier21:presen_clust_stric_free_cocom
     Let $cal(C)$ be a $cal(F)$-complete category.  Let us first show that we can freely add all limits
     of shape $cal(F)'$ in $cal(C)$.  Define $cal(hat(F))'$ be the greatest class of shapes equivalent to
     $cal(F)'$, that is, $
@@ -143,15 +147,13 @@ The cornerstone of the theory of $cal(F)$-complete categories is stated as follo
     $  Consider the category $cal(C)_cal(F)'$, where objects are of the
     form $F : cal(S) -> cal(C)$ where $cal(S) : cal(hat(F))'$.  Intuitively, such a diagram represents its
     added limit in $cal(C)$.  Hence, we must have, for $F : cal(S) -> cal(C)$ and $G : cal(S)' -> cal(C)$, $
-        cal(C)_cal(F)'(F, G) &:= colim_(s : cal(S)) lim_(s' : cal(S)') cal(C)(F(s), G(s')) \
-            &= lim_(s : S^op) lim_(s' : S') cal(C)(F^op (s), G(s'))
+        cal(C)_cal(F)'(F, G) &:= lim_(s' : cal(S)') colim_(s : cal(S)) cal(C)(F(s), G(s'))
     $
     This is a category.  Indeed, for $F : cal(S) -> cal(C)$, we have an identity given by the following
-    series of equations $
-        Set({*}, cal(C)_cal(F)' (F, F)) &= Set({*}, lim_(s : S^op) lim_(s' : S') cal(C)(F^op (s), G(s'))) \
-            &tilde.equiv Set^(S^op) ({*}, lim_(s' : cal(S)') cal(C)(F^op (-), F(s'))) \
-            &tilde.equiv (Set^(S^op))^S ({*}, cal(C)(F^(op)(-), F(=))) \
-            &tilde.equiv Set^(S^op times S) ({*}, cal(C)(F^(op)(-), F(=)))
+    family of elements $
+        (s, id_F(s))_(s : cal(S)) in lim_(s : cal(S)) colim_(s : cal(S)) cal(C)(F(s), F(s))
+    $ $
+        cal(C)_cal(F)' (F, F)
     $
     so, for $s : cal(S)^op$, and $s' : cal(S)$, we have to find an element of $
         cal(C)(F^op (s), F(s'))
@@ -341,6 +343,9 @@ For this section, we will consider categories with finite products, that is, $ca
 #proof[
     This stems directly from the Yoneda lemma.
 ]
+
+#set heading(supplement: none)
+#bibliography("categorical-semantics-of-logic.bib")
 
 // Local Variables:
 // typst-preview--master-file: "./categorical-semantics-of-logic.typ"
