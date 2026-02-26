@@ -13,6 +13,8 @@
 #show: all.with([Notes on categorical semantics of logic], none)
 #set heading(supplement: [Chapter])
 
+#let entail = $op(tack, limits: #false)$
+
 #heading(numbering: none, outlined: false)[Introduction]
 
 The idea that motivates the current note is that every class of theories can be expressed as a category
@@ -150,7 +152,37 @@ The cornerstone of the theory of $cal(F)$-complete categories is stated as follo
         cal(C)_cal(F)'(F, G) &:= lim_(s' : cal(S)') colim_(s : cal(S)) cal(C)(F(s), G(s'))
     $
     This is a category.  Indeed, for $F : cal(S) -> cal(C)$, we have an identity given by the following
-    family of elements $
+    family of elements 
+    
+    If I have a natural transformation $alpha : F => G : cal(C) -> cal(D)$, and a functor $H : cal(E) -> cal(C)$
+    
+    #align(center, prooftree(
+        rule(
+            name: $-(*)$,
+            rule(
+                name: [$lim$-I],
+                rule(
+                    name: $- * iota$,
+                    rule(
+                        name: [nat],
+                        rule(
+                            name: [Id-I],
+                            $* : 1, s : cal(S) entail_Set id_F(s) : cal(C)(F^op (s), F(s))$,
+                        ),
+                        rule(
+                            $$,
+                        ),
+                        $* : 1 entail_(Set^cal(S)) id * F : cal(C)(F^op (-), F(-))$,
+                    ),
+                    $* : 1 entail_(Set^cal(S)) \_ : colim_(s : cal(S)) cal(C)(F^op (s), F(-))$,
+                ),
+                $* : 1 entail_Set \_ :  lim_(s' : cal(S)) colim_(s : cal(S)) cal(C)(F^op (s), F(s'))$,
+            ),
+            $entail_Set \_ : lim_(s' : cal(S)) colim_(s : cal(S)) cal(C)(F^op (s), F(s'))$,
+        )
+    ))
+    
+    $
         (s, id_F(s))_(s : cal(S)) in lim_(s : cal(S)) colim_(s : cal(S)) cal(C)(F(s), F(s))
     $ $
         cal(C)_cal(F)' (F, F)
