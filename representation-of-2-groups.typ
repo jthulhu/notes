@@ -1,6 +1,6 @@
 #import "common.typ": *
 
-#show: all.with([Notes of representation of 2-groups], none)
+#show: all.with([Notes on Representation of 2-groups], none)
 #let Rep = [*Rep*]
 #let Vect = [*Vect*]
 
@@ -122,18 +122,18 @@
 
 #definition(title: [Internal natural transformation])[
     Given two internal categories $C$ and $D$ of $cal(C)$, and two internal functors $F, G : C -> D$, 
-    we call and _internal transformation from $F$ to $G$_ a morphism $nu : C_0 -> D_1$ such that
+    we call and _internal transformation from $F$ to $G$_ a morphism $alpha : C_0 -> D_1$ such that
     the following diagrams commute
     #grid(
         columns: (1fr, 1fr),
         align: center + horizon,
         diagram(spacing: 2cm, $
-            C_0 edge("r", nu, ->) edge("dr", F, ->, label-side: #right)
+            C_0 edge("r", alpha, ->) edge("dr", F, ->, label-side: #right)
                 & D_1 edge("d", s, ->, label-side: #left) \
                 & D_0
         $),
         diagram(spacing: 2cm, $
-            C_0 edge("r", nu, ->) edge("dr", G, ->, label-side: #right)
+            C_0 edge("r", alpha, ->) edge("dr", G, ->, label-side: #right)
                 & D_1 edge("d", t, ->, label-side: #left) \
                 & D_0
         $),
@@ -186,25 +186,25 @@ Let $G$ be a group.
 ]
 
 #definition(title: [2-representation])[
-    Let $G$ be a 2-group.  A _2-representation of $G$_ is a 2-functor $
-        G --> Cat_(Vect_KK)
+    Let $cal(G)$ be a 2-group.  A _2-representation of $cal(G)$_ is a 2-functor $
+        cal(G) --> Cat_(Vect_KK)
     $
 ]
 
 #theorem[
-    A 2-group is exactly the data of a group $G$, a group $H$ with a morphism $t : H -> G$, as well
+    A 2-group $cal(G)$ is exactly the data of a group $G$, a group $H$ with a morphism $t : H -> G$, as well
     as an action $G arrow.cw H$ such that, for all $g in G$ and $h in G$, $
         t(g dot.c h) = g t(h) g^(-1)
     $
     and for $h, h' in H$, we have $
         (t(h) dot.c h') h = h h'
     $
+    with $cal(G)_1 = G$ and $cal(G)_2 = H times.r G$.
 ]
 #proof[
     #show math.equation: set block(breakable: true)
-
     Suppose we have a group $H$ with a morphism $t : H -> G$, and an action $G arrow.cw H$.  Let us 
-    consider the 2-group $cal(G)$ uppon $G$, with 2-cells defined by $cal(G)(g, g') = { h in H
+    consider the 2-group $cal(G)$ upon $G$, with 2-cells defined by $cal(G)(g, g') = { h in H
     | t(h) g = g' }$. The identity at $g in G$ is given by $(1_H, g)$.  Let $(h, g) : g => g'$ and $(h', g')
     : g' => g''$.  The vertical composition is given by $
         h' compose h = h' h : g => g''
@@ -448,8 +448,8 @@ Let $G$ be a group.
 
 == 2-representation of a 2-group
 === From the groupoid perspective
-Let $G$ be a fixed 2-group, and $F : G -> Cat_(Vect_KK)$ be a 2-representation.  This is the data of
-an internal category $V := V_1 arrows V_0$ in $Vect_KK$, such that, for every $g in G$, there is a functor $
+Let $cal(G)$ be a fixed 2-group, and $F : cal(G) -> Cat_(Vect_KK)$ be a 2-representation.  This is the data of
+an internal category $V := V_1 arrows V_0$ in $Vect_KK$, such that, for every $g in cal(G)_1$, there is a functor $
     g dot.c - : V -> V
 $
 that is, linear maps $g dot.c_0 - : V_0 -> V_0$ and $g dot.c_1 - : V_1 -> V_1$ such that the following
@@ -472,7 +472,7 @@ Let's now look at the 2-functoriality part of $F$.  For $g, g' in G$ elements of
 2-cell.  We have that $
     alpha dot.c - : g dot.c_1 - => g' dot.c_1 -
 $
-is a natural transformation, that is, a linear map $alpha dot.c - : V_0 -> V_1$ such that $
+is an internal natural transformation, that is, a linear map $alpha dot.c - : V_0 -> V_1$ such that $
     s(alpha dot.c v) &= g dot.c_0 v & #[ for $v in V_0$] \
     t(alpha dot.c v) &= g' dot.c_0 v & #[ for $v in V_0$] \
     (alpha dot.c t(f)) diamond.small (g dot.c_1 f) &= (g' dot.c_1 f) diamond.small (alpha dot.c s(f))
@@ -489,7 +489,7 @@ and, for $g in G$, $
 $
 
 Furthermore, for $alpha : g_1 => g_2$ and $beta : g'_1 => g'_2$, we have $
-    (alpha * beta) dot.c v &= (g'_2 dot.c_1 alpha dot.c v) diamond.small (beta dot.c g_1 dot.c_0 v) \
+    (beta * alpha) dot.c v &= (g'_2 dot.c_1 alpha dot.c v) diamond.small (beta dot.c g_1 dot.c_0 v) \
         &= (beta dot.c g_2 dot.c_0 v) diamond.small (g'_1 dot.c_1 alpha dot.c v)
 $
 The last equality stems from naturality of $beta dot.c -$.
@@ -506,7 +506,7 @@ V_0$ and $g dot.c_1 - : V_1 -> V_1$ making the following equations hold: $
     g dot.c_1 1_v &= 1_v & #[ for every $v in V_0$] \
     s(g dot.c_1 f) &= g dot.c_0 s(f) & #[ for every $f in V_1$] \
     t(g dot.c_1 f) &= g dot.c_0 t(f) & #[ for every $f in V_1$] \
-    g dot.c_1 (f' diamond.small f) &= (g dot.c_1 f') diamond.small (g dot.c_1 f) & #[ for every $f, f' in V_1$ such that $t(f') = s(f)$]
+    g dot.c_1 (f' diamond.small f) &= (g dot.c_1 f') diamond.small (g dot.c_1 f) & #[ for every $f, f' in V_1$ such that $t(f) = s(f')$]
 $
 
 The 1-functoriality of $F$ expresses exactly that $G arrow.cw V_0$ and $G arrow.cw V_1$, that is, the 
@@ -529,11 +529,54 @@ Furthermore, for $h, h' in H$ and $g in G$, and $v in V_0$, we have $
     (h'h) dot.c_g v &= h' dot.c_(t(h)g) h dot.c_g v
 $
 Finally, for $h, h' in H$ and $g, g' in G$, and $v in V_0$, we have $
-    h(g dot.c h') dot.c_(g g') v &= (t(g')h' dot.c_1 h dot.c_g v) diamond.small (h' dot.c_g' g dot.c_0 v) \
-        &= (h' dot.c_g' t(h)g dot.c_0 v) diamond.small (g' dot.c_1 h dot.c_g v)
+    h(g dot.c h') dot.c_(g g') v
+        &= (t(h)g dot.c_1 (h' dot.c_g' v)) diamond.small (h dot.c_g (g' dot.c_0 v)) &quad& (1)\
+        &= (h dot.c_g (t(h')g' dot.c_0 v)) diamond.small (g dot.c_1 (h' dot.c_g' v)) && (2)
 $
 
-(the last equality holds by naturality of $h' dot.c_g' -$).
+(the last equality holds by naturality of $h' dot.c_g' -$).  Consider the group morphism $
+    t &:& H times.r G &--> G \
+        && (h, g) &mapsto.long t(h)g
+$
+which is, indeed, a morphism: $
+    t((h, g)(h', g')) &= t(h (g dot.c h'), g g') \
+        &= t(h (g dot.c h'))g g' \
+        &= t(h) t(g dot.c h') g g' \
+        &= t(h) g t(h') g' \
+        &= t(h, g) t((h', g'))
+$
+
+The equation (1) is exactly the commutativity of the following diagram
+#align(center, diagram(spacing: 2cm, $
+    text(#red, (H times.r G)) times text(#blue, (H times.r G)) times text(#green, V_0) edge("r", text(#red, -) dot.c text(#blue, -) times text(#green, V_0), ->) edge("d", chevron t\, text(#red, H times.r G) chevron.r times chevron text(#blue, H times.r G)\, pi_2 chevron.r times Delta_text(#green, V_0), ->)
+        & (H times.r G) times text(#green, V_0) edge("dddd", - dot.c text(#green, -), ->) \
+        text(#red, G) times text(#red, (H times.r G)) times text(#blue, (H times.r G)) times text(#blue, G) times text(#green, V_0) times text(#green, V_0) edge("d", ~, ->, label-angle: #auto, label-sep: #(-3pt)) \
+        text(#red, G) times text(#blue, (H times.r G)) times text(#green, V_0) times text(#red, (H times.r G))
+        times text(#blue, G) times text(#green, V_0) 
+        edge("d", text(#red, G) times text(#blue, -) dot.c text(#green, -) times text(#red, (H times.r G)) times text(#blue, -) dot._0 text(#green, -), ->) \
+        text(#red, G) times V_1 times text(#red, (H times.r G)) times V_0
+        edge("d", text(#red, -) dot.c_1 - times text(#red, -) dot.c -, ->) \
+        V_1 times_V_0 V_1 edge("r", diamond.small, ->) & V_1
+$))
+
+and the equation (2) is exactly the commutativity of the following diagram
+#align(center, diagram(spacing: 2cm, $
+    text(#red, (H times.r G)) times text(#blue, (H times.r G)) times text(#green, V_0)
+    edge("r", text(#red, -) dot.c text(#blue, -) times text(#green, V_0), ->)
+    edge("d", chevron pi_2\, text(#red, (H times.r G)) chevron.r times chevron t\, text(#blue, (H times.r G)) chevron.r times Delta_text(#green, V_0), ->)
+        & (H times.r G) times text(#green, V_0) edge("dddd", - dot.c text(#green, -), ->) \
+        text(#red, G) times text(#red, (H times.r G)) times text(#blue, G) times text(#blue, (H times.r G))
+        times text(#green, V_0) times text(#green, V_0)
+        edge("d", ~, label-angle: #auto, label-sep: #(-2pt), ->) \
+        text(#red, (H times.r G)) times text(#blue, G) times text(#green, V_0) times text(#red, G)
+        times text(#blue, (H times.r G)) times text(#green, V_0)
+        edge("d", text(#red, (H times.r G)) times text(#blue, -) dot.c_0 text(#green, -) times text(#red, G) times text(#blue, -) dot.c text(#green, -), ->) \
+        text(#red, (H times.r G)) times V_0 times text(#red, G) times V_1
+        edge("d", text(#red, -) dot.c - times text(#red, -) dot.c_1 -, ->) \
+        V_1 times_V_0 V_1 edge("r", diamond.small, ->) & V_1
+    
+$))
+
 // Local Variables:
 // typst-preview--master-file: "./representation-of-2-groups.typ"
 // End:
