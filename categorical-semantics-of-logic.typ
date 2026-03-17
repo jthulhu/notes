@@ -1,6 +1,7 @@
 #import "common.typ": *
 
 #let CCat = [*CCat*]
+#let Zero = [*0*]
 #let One = [*1*]
 #let Two = [*2*]
 #let dom = [dom]
@@ -84,9 +85,9 @@ functors for every $cal(S) : cal(F)$.
 
 #example[
     The category of cartesian categories $CCat$ is a category of $cal(F)$-complete categories for $
-        cal(F) := {One, 2}
+        cal(F) := {Zero, 2}
     $
-    where $2$ is the discrete category with two elements.
+    where $2$ is the walking pair of points.
 ]
 
 #example[
@@ -136,6 +137,43 @@ The cornerstone of the theory of $cal(F)$-complete categories is stated as follo
     $
 ]
 
+Let $cal(F)$ be a complete set of shapes.  Let $cal(C) : cal(F)Cat$.  Consider $cal(F)$ as a
+subcategory of $Cat$ whose morphisms are initial functors.  We can define, for $cal(S) : cal(F)$,
+$[cal(S), cal(C)] : Cat$.  This defines a Grothendieck fibration: $ cal(F)^op -> Cat $
+
+Let us define a functor $
+    lim : integral_(cal(S) : cal(F)) [cal(S), cal(C)] --> cal(C)
+$
+
+The functor takes the diagram $cal(D) : cal(S) -> cal(C)$ to its limit $lim cal(D)$.  Let $phi :
+cal(D) -> cal(D)'$ be a morphism, where $cal(D) : cal(S) -> cal(C)$ and $cal(D)' : cal(S)' -> cal(C)$.
+
+Such morphism is a functor $phi_1 : cal(S) -> cal(S)'$, as well as a natural transformation
+#align(center, diagram(spacing: (1cm, 2cm), $
+    cal(S) edge("dr", cal(D), ->, label-side: #right) edge("rr", phi_1, ->) && cal(S)' edge("dl", cal(D)', ->, label-side: #left) \
+        & cal(C)
+$,
+    edge((.8, .4), (1.4, .2), $phi_2$, "=>")
+))
+
+Let us define $lim phi : lim cal(D) -> lim cal(D)'$.  By initiality of $phi_1$, $lim cal(D)' tilde.equiv lim cal(D)' compose phi_1$ with a canonical isomorphism, so this is the same as defining a morphism $
+    lim cal(D) --> lim cal(D)' compose phi_1
+$
+
+which is given by $lim phi_2$.
+
+Let us check that this is a functor.  Clearly, the identity is mapped on the identity.  Furthermore,
+suppose we have the following situation
+#align(center, diagram(spacing: 2cm, $
+    cal(S)_1 edge("r", phi_1, ->) edge("dr", cal(D)_1, ->, label-side: #right) 
+        & cal(S)_2 edge("d", cal(D)_2, ->) edge("r", psi_1, ->)
+        & cal(S)_3 edge("dl", cal(D)_3, ->, label-side: #left) \
+        & cal(C)
+$,
+    edge((.6, .4), (.85,.15), $phi_2$, "=>"),
+    edge((1.2, .4), (1.5, .25), $psi_2$, "=>"),
+))
+
 #theorem[
     Let $cal(F) <= cal(F)'$, the functor $(cal(F) <= cal(F)')Cat : cal(F)'Cat -> cal(F)Cat$ has a left
     adjoint.  Let us call this left adjoint $F^cal(F)'_cal(F) : cal(F)Cat -> cal(F)'Cat$.
@@ -153,8 +191,6 @@ The cornerstone of the theory of $cal(F)$-complete categories is stated as follo
     $
     This is a category.  Indeed, for $F : cal(S) -> cal(C)$, we have an identity given by the following
     family of elements 
-    
-    If I have a natural transformation $alpha : F => G : cal(C) -> cal(D)$, and a functor $H : cal(E) -> cal(C)$
     
     #align(center, prooftree(
         rule(
@@ -184,12 +220,20 @@ The cornerstone of the theory of $cal(F)$-complete categories is stated as follo
     
     $
         (s, id_F(s))_(s : cal(S)) in lim_(s : cal(S)) colim_(s : cal(S)) cal(C)(F(s), F(s))
-    $ $
-        cal(C)_cal(F)' (F, F)
     $
-    so, for $s : cal(S)^op$, and $s' : cal(S)$, we have to find an element of $
-        cal(C)(F^op (s), F(s'))
+    
+    Let $F_i : cal(S)_i -> cal(C)$ ($i : {1, 2, 3}$) be three objeccts of $cal(C)_cal(F)'$, and
+    $f : F_1 -> F_2$ and $g : F_2 -> F_3$.  Let us build $g compose f : F_1 -> F_3$.  We must find
+    an inhabitant of $
+        lim_(s_3 : cal(S)_3) colim_(s_1 : cal(S)_1) cal(C)(F_1(s_1), F_3(s_3))
     $
+    Let $s_3 : cal(S)_3$ we have, $g_s_3 = (s_2, alpha)$ with $alpha : cal(C)(F_2(s_2), F_3(s_3))$.
+    We have $f_s_2 = (s_1, beta)$ avec $beta : cal(C)(F_1(s_1), F_2(s_2))$. We then have $
+        (s_1, alpha compose beta) : colim_(s_3 : cal(S)_3) cal(C)(F_1(s_1), F_3(s_3))
+    $
+    Composing with the identity morphism gives the same morphism.
+    
+    Let now $cal(S) : cal(hat(F))'$ be a shape, and $F : cal(S) -> cal(C)_cal(F)'$ be a functor.
 ]
 
 #proposition[
