@@ -106,8 +106,11 @@
     set heading(numbering: "1.")
     counter(page).update(1)
 
+    context fletcher.MARKS.update(marks => marks + (pb: (inherit: "straight", sharpness: 45deg, rev: false, size: 20)))
+
     bd
 }
 
 #let Cat = [*Cat*]
 #let Set = [*Set*]
+#let pullback(x: 1cm, y: 1cm) = edge((rel: (x, -y)), "pb-", extrude: ())
