@@ -59,11 +59,75 @@ _shapes_.
     A $cal(F)$-complete category is a category that has all limits of all shapes $cal(S) : cal(F)$.
 ]
 
-// $
-//     cal(C)(X, lim (lim_{*_2 quad *_3} F) times (lim_{*_2 quad *_3} F) xarrow(F(*_2 -> *_1) compose pi_1, sym: arrows)_(F(*_3 -> *_1) compose pi_2) F(*_1)) &tilde.equiv \
-//     cal(C)(X, lim_{*_2 -> *_1 <- *_3} F) &tilde.equiv cal(C)^{*_2 -> *_1 <- *_3}(X, F) \
-//         &tilde.equiv cal(C)(X, lim_{*_5 arrows *_4} cases(*_5 &mapsto.long \_, *_4 &mapsto.long lim_{*_2 quad *_3} F))
-// $
+== Free completions
+#theorem(title: [folklore])[
+    Given a category $cal(C)$, there exists a free cocompletion $hat(cal(C))$ of $cal(C)$.
+]
+#remark[
+    It is folklore that the presheaf category over $cal(C)$, which is often noted $hat(cal(C))$, is
+    its free cocompletion.  Hence the notation.
+]
+
+#corollary[
+    Given a category $cal(C)$, there exists a free completion $tilde(cal(C))$ of $cal(C)$.
+]
+#proof[
+    Let $tilde(cal(C)) := hat(cal(C)^op)^op$, and check that it works.
+]
+
+#theorem[
+    Let $cal(F)$ be a shape, and $cal(C) : Cat$ be $cal(F)$-complete.  There exists a complete category
+    $cal(C)_cal(F)$ with a $cal(F)$-continuous functor $cal(C) arrow.hook cal(C)_cal(F)$ such that, for any
+    $cal(F)$-continuous functor $F : cal(C) -> cal(D)$, there exists a unique $cal(F)$-continuous
+    functor making the following diagram commute
+    #align(center, diagram(spacing: 2cm, $
+        cal(C)_cal(F) edge("dr", ->, "dashed") \
+        cal(C) edge("u", "hook->") edge("r", F, ->) & cal(D)
+    $))
+]
+#proof[
+    Let us consider $tilde(cal(C)) xarrow(pi, sym: arrow.twohead) cal(C)_cal(F)$ be defined as the
+    coequalizer of the following diagram.
+    #align(center, diagram(spacing: 2cm, $
+        & Cat(product.co_(cal(S) : cal(F)), tilde(cal(C))) edge("dr", product.co_(cal(S) : cal(F)) lim_cal(S), ->) \
+        Cat(product.co_(cal(S) : cal(F)), cal(C)) edge("ur", "hook->") edge("dr", product.co_(cal(S) : cal(F)) lim_cal(S), ->, label-side: #right)
+            && tilde(cal(C)) edge("r", pi, ->>) & cal(C)_cal(F) \
+            & cal(C) edge("ur", "hook->")
+    $))
+    
+    We have to show that $cal(F)$ is complete.  To do so, consider a diagram $cal(D) : cal(B) -> 
+    cal(C)_cal(F)$.
+    Consider the following pullback
+    #align(center, diagram(spacing: 2cm, $
+        cal(B) times_cal(C)_cal(F) tilde(cal(C)) edge("r", pi^* F, ->) edge("d", F^* pi, ->>) pullback()
+            & tilde(cal(C)) edge("d", pi, ->>, label-side: #left) \
+            cal(B) edge("r", F, ->) & cal(C)_cal(F)
+    $))
+    Because $pi$ is a regular epimorphism, its pullback by $F$ is a regular epimorphism, so in particular
+    it is a full surjective functor.
+
+    Let us show that $X := pi(lim_(x : cal(B) times_cal(C)_cal(F) tilde(cal(C))) pi^*F (x))$ is a limit of $F$.
+    First of, let's exhibit the full cone.  For $b : cal(B)$, we have to find a map $
+        X --> F(b)
+    $
+    Because $F^*pi$ is surjective, there exists a $P : tilde(cal(C))$ such that $(b, P) : cal(B) 
+    times_cal(C)_cal(F) tilde(cal(C))$.  Hence, $F(b) = pi(P)$.  So, we have $
+        X xarrow(pi(pi_(b, P))) pi(P)
+    $
+    Let's show that this is indeed a cone.  Consider $f : b -> b'$ a morphism in $cal(B)$.  There
+    exists $P, P' : tilde(cal(C))$ such that $F(b) = pi(P)$ and $F(b') = pi(P')$.  By fullness of
+    $F^*pi$, there exists a morphism $alpha : P -> P'$ such that $F(f) = pi(alpha)$. We have that
+    the following diagram commutes, by definition of $X$ being a (limit) cone.
+    #align(center, diagram(spacing: (1cm, 2cm), $
+        & X edge("dl", pi(pi_(b, P)), ->) edge("dr", pi(pi_(b', P')), ->) \
+        pi(P) edge("rr", pi(alpha), ->) && pi(P')
+    $))
+    Hence what we have defined is indeed a cone.
+    
+    Let us now show that it is universal.  Consider $Y$ and $(g_b : Y -> F(b))_(b : cal(B))$ be
+    another cone.  There exists a $Q : tilde(cal(C))$ such that $pi(Q) = Y$.  Now, for every
+    $(b, P)$ such that $F(b) = pi(P)$, there is a a $f_(b, P) : Q -> P$ such that $pi(f_(b, P)) = g_b$.
+]
 
 == Category of shapes
 
@@ -105,7 +169,7 @@ The cornerstone of the theory of $cal(F)$-complete categories is stated as follo
 
 #theorem[
     $cal(F)Cat$ is cartesian closed.
-]
+] <thm:FCat-cc>
 #proof[
     First of all, $cal(F)Cat$ has a terminal object: $One$.  Indeed, $One$ is complete.  Furthermore,
     every functor $cal(C) xarrow(!) One$ is complete.  Let us now consider $cal(C), cal(D) : cal(F)Cat$
@@ -137,13 +201,46 @@ The cornerstone of the theory of $cal(F)$-complete categories is stated as follo
     $
 ]
 
-Let $cal(F)$ be a complete set of shapes.  Let $cal(C) : cal(F)Cat$.  Consider $cal(F)$ as a
-subcategory of $Cat$ whose morphisms are initial functors.  We can define, for $cal(S) : cal(F)$,
-$[cal(S), cal(C)] : Cat$.  This defines a Grothendieck fibration: $ cal(F)^op -> Cat $
+Let $cal(F)$ be a complete set of shapes.  Let $cal(C) : Cat$, and $tilde(cal(C))$ its free
+completion.  Consider $cal(F)$ as a subcategory of $Cat$ whose morphisms are initial functors.
+We can define, for $cal(S) : cal(F)$, $[cal(S), cal(C)] : Cat$.  This defines a Grothendieck
+fibration: $ cal(F)^op -> Cat $
 
 Let us define a functor $
-    lim : integral_(cal(S) : cal(F)) [cal(S), cal(C)] --> cal(C)
+    lim : integral_(cal(S) : cal(F)) [cal(S), cal(C)] stretch(arrow.hook, size: #150%) integral_(cal(S) : cal(F)) [cal(S), tilde(cal(C))] --> tilde(cal(C))
 $
+
+And consider $cal(C)_cal(F)$ be defined as the following pullback
+#align(center, diagram(spacing: 2cm, $
+    cal(C)_cal(F) edge("r", ->) edge("d", ->) pullback()
+        & tilde(cal(C)) edge("d", id_tilde(cal(C)), ->) \
+        integral_(cal(S) : cal(F)) [cal(S), cal(C)] edge("r", lim, ->) & tilde(cal(C))
+$))
+
+#proposition[
+    $cal(C)_cal(F)$ is a $cal(F)$-complete category.
+]
+#proof[
+    Let $cal(S) : cal(F)$ be an $cal(F)$ shape, and $cal(D) : cal(S) -> integral_(cal(S)' : cal(F)) [cal(S)', 
+    cal(C)]$ be a diagram of shape $cal(S)$.  Consider $
+        pi compose cal(D) : cal(S) -> cal(F)
+    $
+    Let $cal(S)_cal(D) = colim_(s : cal(S)) pi(cal(D)(s))$ be computed in $Cat$.  Let us define a functor $
+        [cal(S)_cal(D), cal(C)]
+    $
+    By exploiting the following isomorphisms $
+        Cat(cal(S)_cal(D), cal(C)) &= Cat(colim_(s : cal(S)) pi(cal(D)(s)), cal(C)) \
+            &tilde.equiv lim_(s : cal(S)^op) [cal(S), cal(C)](pi(cal(D))(s), cal(C))
+    $
+    Let us exhibit an element of $lim_(s : cal(S))[cal(S), cal(C)](pi(cal(D)(s)), cal(C))$.  Let $s : cal(S)$,
+    consider $cal(D)(s) = (cal(D)_s, F_s)$ where $F_s : cal(D)_s -> cal(C)$.  Let now $f : s -> s'$
+    be a morphism in $cal(S)$.  Let us show that the following diagram commutes
+    #align(center, diagram(spacing: (1cm, 2cm), $
+        cal(D)_s edge("rr", cal(D)_f, ->) edge("dr", F_s, ->, label-side: #right)
+            && cal(D)_s' edge("dl", F_s', ->, label-side: #left) \
+            & cal(C)
+    $))
+]
 
 The functor takes the diagram $cal(D) : cal(S) -> cal(C)$ to its limit $lim cal(D)$.  Let $phi :
 cal(D) -> cal(D)'$ be a morphism, where $cal(D) : cal(S) -> cal(C)$ and $cal(D)' : cal(S)' -> cal(C)$.
@@ -156,6 +253,8 @@ $,
     edge((.8, .4), (1.4, .2), $phi_2$, "=>")
 ))
 
+Let us show that $cal(C)_cal(F)$
+
 Let us define $lim phi : lim cal(D) -> lim cal(D)'$.  By initiality of $phi_1$, $lim cal(D)' tilde.equiv lim cal(D)' compose phi_1$ with a canonical isomorphism, so this is the same as defining a morphism $
     lim cal(D) --> lim cal(D)' compose phi_1
 $
@@ -165,7 +264,7 @@ which is given by $lim phi_2$.
 Let us check that this is a functor.  Clearly, the identity is mapped on the identity.  Furthermore,
 suppose we have the following situation
 #align(center, diagram(spacing: 2cm, $
-    cal(S)_1 edge("r", phi_1, ->) edge("dr", cal(D)_1, ->, label-side: #right) 
+    cal(S)_1 edge("r", phi_1, ->) edge("dr", cal(D)_1, ->, label-side: #right)
         & cal(S)_2 edge("d", cal(D)_2, ->) edge("r", psi_1, ->)
         & cal(S)_3 edge("dl", cal(D)_3, ->, label-side: #left) \
         & cal(C)
@@ -246,7 +345,7 @@ $,
     this stems by uniqueness of left adjoints.
 ]
 
-== $cal(F)$ theory
+= $cal(F)$ theories
 #definition(title: [$cal(F)$ theory])[
     A $cal(F)$ theory $cal(T)$ is an $cal(F)$-complete category.
 ]
@@ -275,11 +374,32 @@ theory.
         Mod_cal(T)(cal(U)) := cal(F)Cat(cal(T), cal(U))
     $
 ]
-
 #remark[
     We are often primarily interested in models in $Set$ (which belongs to every $cal(F)$Cat).  
     However, being able to change the category in which we interpret are theory will be an
     other important tool to make compute describe theories later on.
+]
+
+#theorem(title: [Completeness])[
+    Let $cal(F) : Shp$ be a shape, $cal(T), cal(T)' : cal(F)Cat$ be two $cal(F)$ theories.  If, for
+    every universe $cal(U) : cal(F)Cat$, we have $
+        Mod_cal(T)(cal(U)) tilde.equiv Mod_cal(T)'(cal(U))
+    $
+    naturally in $cal(U)$, then $cal(T) tilde.equiv cal(T)'$.
+]
+#proof[
+    Easy, by Yoneda.
+]
+
+#theorem(title: [Real completeness])[
+    Let $cal(F) : Shp$ be a shape, and $cal(T), cal(T)' : cal(F)Cat$ be two $cal(F)$ theories.
+    If $
+        Mod_cal(T)(Set) tilde.equiv Mod_cal(T)'(Set)
+    $
+    then $cal(T) tilde.equiv cal(T)'$.
+]
+#proof[
+    Hard, we should build a syntactic model.
 ]
 
 == Monad on an $cal(F)$ theory
@@ -409,6 +529,14 @@ For this section, we will consider categories with finite products, that is, $ca
     $
 ]
 #proof[
+    $
+        Mod_cal(T)_1 (Mod_cal(T)_2 (cal(C))) &= CCat(cal(T)_1, CCat(cal(T)_2, cal(C))) \
+            &tilde.equiv CCat(cal(T)_1 times cal(T)_2, cal(C)) \
+            &tilde.equiv CCat(cal(T)_2 times cal(T)_1, cal(C)) \
+            &tilde.equiv CCat(cal(T)_2, CCat(cal(T)_1, cal(C))) \
+            &= Mod_cal(T)_2 (Mod_cal(T)_1(cal(C)))
+    $
+    because $CCat$ is cartesian closed, by @thm:FCat-cc.
 ]
 
 #theorem[
