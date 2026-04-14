@@ -11,12 +11,13 @@
 #let Vect = [*Vect*]
 #let colim = math.op([colim], limits: true)
 
-#show: all.with([Notes on categorical semantics of logic], none)
+#show: all.with([Notes on categorical semantics of logic], none, chapter-level: 2)
 #set heading(supplement: [Chapter])
+#show heading.where(level: 1): set heading(supplement: [Part])
 
 #let entail = $op(tack, limits: #false)$
 
-#heading(numbering: none, outlined: false)[Introduction]
+#heading(numbering: none, outlined: false, level: 2)[Introduction]
 
 The idea that motivates the current note is that every class of theories can be expressed as a category
 of sufficiently structure rich categories.  For instance, when a category has a terminal object $1$, one
@@ -39,8 +40,8 @@ theory of vector spaces, and the theory of categories).  One therefore derives $
 times Cat$, the theory of 2-vector spaces.  The main interest here of doing so is that one recovers the
 ability to interpret this theory in different categories.
 
-#show heading.where(level: 1): it => { 
-    pagebreak(weak: true);
+#show heading.where(level: 2): it => { 
+    pagebreak(weak: true)
     it.supplement
     [ ]
     if it.numbering != none {
@@ -51,7 +52,45 @@ ability to interpret this theory in different categories.
     parbreak()
 }
 
-= Shape calculus
+#show heading.where(level: 1): it => if it.supplement == [] { 
+    it
+} else {
+    pagebreak(weak: true)
+    set page(numbering: none, header: none)
+    counter(page).update(it => it - 1)
+    v(2fr)
+    set text(30pt)
+    it.supplement
+    [ ]
+    context counter(heading).display("I")
+    v(1fr)
+    set text(50pt)
+    set align(center)
+    [#it.body;]
+    v(5fr)
+    pagebreak(weak: true)
+}
+
+= 1-Categorical Logic
+
+Categorical logic is a way of viewing logic that replaces _axiomatization_ with
+_categorification_.  For instance, rather than defining a group as an object that satisfies
+enough properties, on its own, we define a group as being an object _in a category_ that
+satisfies enough properties.  Although it might seem that there is no difference in the two
+descriptions just given, there is a huge distinction to be made: the former description has
+access to _elements_ of an object, and only to those, and being a group is a property of these
+elements; whereas in the later description, one can only speak of the relationship between
+the object and the rest of the category.  One cannot "inspect" the elements of the object,
+as object in an abstract categories are not sets.
+
+Hence, one can be as expressive in categorical logic as the _ambient_ category has "features".
+For instance, one can retrieve the notion of (global) element in a category that has a terminal
+object.  Of course, if one speaks of groups in $Set$, then the ambient category $Set$ is rich
+enough so that we can categorically describe exactly the same notion as the axiomatized notion of
+group.  However, being able to have models live in a variety of ambient categories will be very
+useful, even if we are only interested in $Set$ models.
+
+== Shape calculus
 For this section, consider $cal(F)$ a class of (small) categories.  Elements of $cal(F)$ are called
 _shapes_.
 
@@ -59,7 +98,7 @@ _shapes_.
     A $cal(F)$-complete category is a category that has all limits of all shapes $cal(S) : cal(F)$.
 ]
 
-== Free completions
+=== Free completions
 #theorem(title: [folklore])[
     Given a category $cal(C)$, there exists a free cocompletion $hat(cal(C))$ of $cal(C)$.
 ]
@@ -129,7 +168,7 @@ _shapes_.
     $(b, P)$ such that $F(b) = pi(P)$, there is a a $f_(b, P) : Q -> P$ such that $pi(f_(b, P)) = g_b$.
 ]
 
-== Category of shapes
+=== Category of shapes
 
 At first, we will consider a fixed $cal(F)$, and develop the theory around it.  For instance, we will
 see how to compute the product of two $cal(F)$ theories.  However, this doesn't inform us on how to
@@ -142,7 +181,7 @@ categories.
     from $cal(F)$ to $cal(F)'$ if every $cal(F)'$-complete category $cal(C)$ is also $cal(F)$-complete.
 ]
 
-== $cal(F)$-complete categories
+=== $cal(F)$-complete categories
 
 Let us note $cal(F)Cat$ the category of $cal(F)$-complete categories with morphisms $cal(S)$-continuous
 functors for every $cal(S) : cal(F)$.
@@ -345,7 +384,7 @@ $,
     this stems by uniqueness of left adjoints.
 ]
 
-= $cal(F)$ theories
+== $cal(F)$ theories
 #definition(title: [$cal(F)$ theory])[
     A $cal(F)$ theory $cal(T)$ is an $cal(F)$-complete category.
 ]
@@ -355,7 +394,7 @@ no technical distinction between the category of $cal(F)$ theories and $cal(F)Ca
 follows, we want to see those categories as _theories_, in the sense that they admit a (meta) theory of
 models.
 
-== Model of a $cal(F)$ theory
+=== Model of a $cal(F)$ theory
 Let $cal(U) : cal(F)Cat$ be a category, called in this context a _universe_, and $cal(T)$ be a $cal(F)$
 theory. 
 
@@ -402,7 +441,7 @@ theory.
     Hard, we should build a syntactic model.
 ]
 
-== Monad on an $cal(F)$ theory
+=== Monad on an $cal(F)$ theory
 For this section, fix $cal(T)$ a $cal(F)$ theory, and $cal(U)$ be a universe, which has all limits
 shaped by $cal(T)$.
 
@@ -444,8 +483,8 @@ shaped by $cal(T)$.
     of $cal(T)$.
 ]
 
-= Quantifier-free first order logic
-== Algebraic theories
+== Quantifier-free first order logic
+=== Algebraic theories
 For this section, we will consider categories with finite products, that is, $cal(F) = {0, 2}$.
 
 #definition(title: [Multi-sorted Lawvere theory])[
@@ -456,12 +495,12 @@ For this section, we will consider categories with finite products, that is, $ca
     of models of $T$.
 ]
 
-== Horn theories
+=== Horn theories
 
-== Essentially algebraic theories
+=== Essentially algebraic theories
 
-= Higher order logic
-= Lawvere Theories
+=== Higher order logic
+=== Lawvere Theories
 #definition(title: [Lawvere theory])[
     A _(generalized) Lawvere theory_ is a cartesian category.
 ]
@@ -548,7 +587,98 @@ For this section, we will consider categories with finite products, that is, $ca
     This stems directly from the Yoneda lemma.
 ]
 
-#set heading(supplement: none)
+= 2-Categorical Logic
+== 2-categories
+#definition(title: [2-category])[
+    $cal(C)$ is a 2-category is the data of
+    - a class of objects $cal(C)$, for two objects $A, B : cal(C)$
+    - a class of morphisms $cal(C)(A, B)$, such that
+        - for every $A : cal(C)$, there is a $id_A : cal(C)(A, A)$;
+        - for every $A, B, C : cal(C)$, and $g : cal(C)(B, C)$ and $f : cal(C)(A, B)$, there is a morphism
+          $g compose f : cal(C)(A, C)$;
+        - for every morphism $f$, $f compose id = id compose f = f$;
+        - for every $f$, $g$ and $h$, $(f compose g) compose h = f compose (g compose h)$.
+    - a class of 2-morphisms $cal(C)(A, B)(f, g)$, such that
+        - for every $f : cal(C)(A, B)$ there is a $id_f : cal(C)(A, B)(f, f)$;
+        - for every $alpha : cal(C)(A, B)(g, h)$ and $beta : cal(C)(A, B)(f, g)$, there is a
+          $alpha square.small beta : cal(C)(A, B)(f, h)$.
+        - for every $alpha_1 : cal(C)(A, B)(f_1, g_1)$ and $alpha_2 : cal(C)(B, C)(f_2, g_2)$, there is
+          $ alpha_2 compose alpha_1 : cal(C)(A, C)(f_2 compose f_1, g_2 compose g_1) $
+        - for every $alpha$, $id square.small alpha = alpha square.small id = alpha$.
+        - for every $alpha$, $beta$ and $gamma$, $(alpha square.small beta) square.small gamma = alpha square.small (beta square.small gamma)$
+        - for $A, B, C : cal(C)$, $f_1, g_1, h_1 : cal(C)(A, B)$ and $f_2, g_2, h_2 : cal(C)(B, C)$, and $alpha_i : f_i => g_i$,
+          $beta_i : g_i => h_i$, we have $
+              (beta_2 square.small alpha_2) compose (beta_1 square.small alpha_1) = (beta_2 compose beta_1) square.small (alpha_2 compose alpha_1)
+          $
+]
+
+#proposition[
+    Let $cal(C)$ a 2-category.  If we forget the 2-cell structure, $cal(C)$ is a (1-)category.
+]
+
+#definition(title: [2-functor])[
+    Let $cal(C)$ and $cal(D)$ be a 2-category, $F : cal(C) -> cal(D)$ a 2-functor is the data of $
+        F : cal(C) -> cal(D)
+    $
+    a functor, and such that, for $A, B : cal(C)$, and $f, g : cal(C)(A, B)$, there is $
+        F : cal(C)(A, B)(f, g) -> cal(C)(F(A), F(B))(F(f), F(g))
+    $
+    such that it maps the identity to the identity, and $F(alpha square.small beta) = F(alpha) square.small F(beta)$.
+]
+
+== The theory of monads
+Let $cal(K)$ be a 2-category.
+
+#definition(title: [Monad in $cal(K)$])[
+    A _monad in $cal(K)$_ is an object $x : cal(K)$, a morphism $m : x -> x$ and $eta : id_x => m$, $mu : m compose m => m$, such that
+    #grid(
+        columns: (1fr, auto, 1fr),
+        align: horizon + center,
+        diagram(spacing: (1.5cm, 2cm), $
+            & x edge("r", m, ->) & x edge("dr", m, ->) \
+            x edge("ur", m, ->) edge("urr", m, ->, label-side: #right) edge("rrr", m, ->, label-side: #right) & & & x
+        $,
+            edge((1, 0), (1, .45), $mu$, "=>"),
+            edge((1.5, .35), (1.5, .9), $mu$, "=>", label-side: left),
+        ),
+        $=$,
+        diagram(spacing: (1.5cm, 2cm), $
+            & x edge("r", m, ->) edge("drr", m, ->, label-side: #right) & x edge("dr", m, ->) \
+            x edge("ur", m, ->)  edge("rrr", m, ->, label-side: #right) & & & x
+        $,
+            edge((1.5, .35), (1.5, .9), $mu$, "=>"),
+            edge((2, 0), (2, .45), $mu$, "=>"),
+        ),
+        diagram(spacing: 2cm, $
+            x edge("r", m, ->) edge("rr", m, ->, bend: #(-50deg)) & x edge("r", id_x, ->, bend: #60deg) edge("r", m, label-side: #right, ->) & x
+        $,
+            edge((1.5, -.3), (1.5, -.05), $eta$, "=>"),
+            edge((1, 0), (1, .5), $mu$, "=>"),
+        ),
+        $=$,
+        diagram(spacing: 2cm, $
+            x edge("r", m, ->) & x
+        $),
+        diagram(spacing: 2cm, $
+            x edge("r", m, ->, label-side: #right) edge("r", id_x, ->, bend: #60deg) edge("rr", m, label-side: #right, ->, bend: #(-50deg))
+                & x edge("r", m, ->)
+                & x
+        $,
+            edge((.5, -.3), (.5, -.05), $eta$, "=>"),
+            edge((1, 0), (1, .5), $mu$, "=>"),
+        ),
+        $=$,
+        diagram(spacing: 2cm, $
+            x edge("r", m, ->) & x
+        $)
+    )
+]
+
+== Enrichment of 1-theories
+Let $cal(T)$ be a $(cal(F),1)$-theory.  $cal(T) times Cat$ is a $(cal(F),2)$-theory.
+
+#show heading: set heading(supplement: none)
+#set page(header: none)
 #bibliography("categorical-semantics-of-logic.bib")
 
 // Local Variables:

@@ -50,7 +50,7 @@
 
 #let exercise = exercise.with(breakable: true)
 
-#let all(title, draft, bd) = {
+#let all(title, draft, bd, chapter-level: 1) = {
     show: show-theorion
     show: show-exercise
     show: show-fact
@@ -77,7 +77,9 @@
     align(center, text(15pt, [Adrien #smallcaps[Mathieu]]))
     v(2fr)
     outline(
-        target: heading.where(supplement: [Chapter]).or(heading.where(supplement: [Section])),
+        target: heading.where(supplement: [Chapter])
+            .or(heading.where(supplement: [Section]))
+            .or(heading.where(supplement: [Part])),
         depth: 2,
     )
     v(2fr)
@@ -90,20 +92,20 @@
         },
         header: context {
             set text(size: 10pt)
-            let secs = query(heading.where(level: 1).after(here()))
+            let secs = query(heading.where(level: chapter-level).after(here()))
             let sec = if secs.len() != 0 and secs.first().location().page() == here().page() {
                 secs.first()
             } else {
-                query(heading.where(level: 1).before(here())).last()
+                query(heading.where(level: chapter-level).before(here())).last()
             }
             if sec.numbering != none {
-                [*#sec.supplement #numbering(sec.numbering, counter(heading).at(sec.location()).at(0));*]
+                [*#sec.supplement #numbering(sec.numbering, ..counter(heading).at(sec.location()).slice(0, chapter-level));*]
             }
             h(1fr)
             [_#sec.body;_]
         },
     )
-    set heading(numbering: "1.")
+    set heading(numbering: "I.1.")
     counter(page).update(1)
 
     context fletcher.MARKS.update(marks => marks + (pb: (inherit: "straight", sharpness: 45deg, rev: false, size: 20)))
